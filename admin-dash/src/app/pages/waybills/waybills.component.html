@@ -1,0 +1,675 @@
+<ngx-spinner
+bdColor="rgba(0,0,0,0.9)"
+>
+  <p style="font-size: 16px; color: white"> {{loading_msg}} </p>
+</ngx-spinner>
+
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center " style="min-height: 400px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+    <!-- Mask -->
+    <span class="mask bg-gradient-danger opacity-7"></span>
+    <div class="container-fluid">
+      <div class="header-body animated fadeIn delay-1s">
+
+        <div class="row">
+          <div class="col">
+            <h1 class="display-2 text-white">Pickups & Deliveries</h1>
+            <p class="text-white ">Click on the blocks to view and filter waybills.</p>
+            <!-- <a href="#!" class="btn btn-info">Edit profile</a> -->
+          </div>
+        </div>
+
+        <!-- Card stats -->
+        <div class="row">
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0 filter-card " (click)="applyFilter('all')" [ngClass]="{'active': active_class=='all'}">
+                <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">All</h5>
+                    <span class="h2 font-weight-bold mb-0">{{all_count}}</span>
+                    </div>
+                    <div class="col-auto">
+                    <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                        <i class="fas fa-percent"></i>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0 filter-card" (click)="applyFilter('today')" [ngClass]="{'active': active_class=='today'}">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Today</h5>
+                    <span class="h2 font-weight-bold mb-0">{{today_count}}</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                      <i class="fas fa-chart-bar"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0 filter-card" (click)="applyFilter('pickup')" [ngClass]="{'active': active_class=='pickup'}">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Must Collect</h5>
+                    <span class="h2 font-weight-bold mb-0">{{pickup_count}}</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                      <i class="fas fa-chart-pie"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0 filter-card" (click)="applyFilter('pending')" [ngClass]="{'active': active_class=='pending'}">
+                <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Pending Payment</h5>
+                    <span class="h2 font-weight-bold mb-0">{{pending_count}}</span>
+                    </div>
+                    <div class="col-auto">
+                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+
+         
+        </div>
+        <br/>
+        <!-- Card stats -->
+        <div class="row">
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0 filter-card" (click)="applyFilter('at_branch')" [ngClass]="{'active': active_class=='at_branch'}">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">At Branch</h5>
+                    <span class="h2 font-weight-bold mb-0">{{at_branch_count}}</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                      <i class="fas fa-users"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0 filter-card" (click)="applyFilter('in_transit')" [ngClass]="{'active': active_class=='in_transit'}">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">In Transit</h5>
+                    <span class="h2 font-weight-bold mb-0">{{in_transit_count}}</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                      <i class="fas fa-percent"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0 filter-card" (click)="applyFilter('delivered')" [ngClass]="{'active': active_class=='delivered'}">
+                <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Delivered</h5>
+                    <span class="h2 font-weight-bold mb-0">{{delivered_count}}</span>
+                    </div>
+                    <div class="col-auto">
+                    <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0 filter-card" (click)="applyFilter('cancelled')" [ngClass]="{'active': active_class=='cancelled'}">
+                <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Cancelled</h5>
+                    <span class="h2 font-weight-bold mb-0">{{cancelled_count}}</span>
+                    </div>
+                    <div class="col-auto">
+                    <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+           
+
+        </div>
+        <!-- End -->
+      
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+<!--------------------
+-     PAGE CONTENT  
+--------------------->
+  <!-- Dark table -->
+  <div class="container mt--7 animated fadeIn">
+    <div class="">
+      <div class="card bg-default shadow">
+        <!-- <div class="card-header bg-transparent border-0">
+          <h3 class="text-white mb-0">Card tables</h3>
+        </div> -->
+        <div class="table-responsive">
+          <table  class="table align-items-center table-dark table-flush animated fadeIn waybills-table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">waybill no</th>
+                <th scope="col">Date</th>
+                <th scope="col">Client Name</th>
+                <th scope="col">Service</th>
+                <th scope="col">From</th>
+                <th scope="col">Payment Status</th>
+                <th scope="col">Delivery status</th>
+                <th scope="col"></th> 
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="single-waybill" *ngFor="let waybill of waybills; index as i" (click)="getSingleWaybill(waybill.qoute_id)" > 
+                <td>{{ waybill.qoute_id }}</td>
+                <td>{{ waybill.date_created }}</td>
+                <td>{{ waybill.cust_name }} {{ waybill.surname }}</td>
+                <td>{{ waybill.service_type }}</td>
+                <td>{{ waybill.collection_branch }}</td>
+                <td>{{ waybill.payment_status }}</td>
+                <td>
+                  <span class="badge {{d_status_badge_table}}" [ngClass]="d_status_badge_table">
+                    {{ waybill.delivery_status }}
+                   </span>
+                </td>
+                <td class="text-right">
+                  <div ngbDropdown placement="bottom-right">
+                    <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+                      <a class="dropdown-item" href="javascript:void(0)">Action</a>
+                      <a class="dropdown-item" href="javascript:void(0)">Another action</a>
+                      <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<!-------------------------------
+********************************
+-     SINGLE WAYBILL VIEW     -
+********************************
+-------------------------------->
+
+<div class="row view_qoute_screen animated fadeIn" *ngFor="let waybill of single_waybill; index as i" [ngClass]="{'active': open_waybill}">
+
+  <div class="col-md-8 view_overlay">
+
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-manage-tab" data-toggle="tab" href="#nav-manage" role="tab" aria-controls="nav-manage" aria-selected="true">View</a>
+        <a class="nav-item nav-link" id="nav-edit-tab" data-toggle="tab" href="#nav-edit" role="tab" aria-controls="nav-edit" aria-selected="false">Edit</a>
+      </div>
+    </nav>
+    
+    <div class="tab-content" id="nav-tabContent">
+
+     <div class="tab-pane show active" id="nav-edit" role="tabpanel" aria-labelledby="nav-edit-tab">
+         
+      <!-- General Details -->
+    <div class="row general-details">
+      <div class="col">
+        <img src="https://kgcf.co.za/wp-content/uploads/2019/06/Slider-Logo-3.png" width="200" alt="">
+      </div>
+      <div class="col service-type">
+        <label>Waybill No</label>
+        <p class="waybill_number">{{ waybill.qoute.qoute_id }}</p>
+      </div>
+      <div class="col customer-id">
+        <label>customer code</label>
+        <p class="user-id">{{ waybill.qoute.cust_login_id }}</p>
+      </div>
+      <div class="col date">
+        <label>Date & time</label>
+        <p class="qoute_date">{{ waybill.qoute.date_created }}</p>
+      </div>
+    </div>
+  
+    <!-- Collection Details -->
+    <div class="row collection-details">
+  
+      <div class="card shadow col-md-6 sender">
+        <h1>FROM:</h1>
+        <table class="table table-stripped">
+          <tr>
+            <td> <b>Name</b> </td>
+            <td class="sender-name user_name">{{ waybill.qoute.cust_name }} {{ waybill.qoute.surname }}</td>
+          </tr>
+          <tr>
+            <td> <b>Cellphone</b> </td>
+            <td class="sender-phone user_cell">{{ waybill.qoute.cellphone }}</td>
+          </tr>
+          <tr>
+            <td> <b>Email</b> </td>
+            <td class="sender-email user_email">{{ waybill.qoute.email_addr }}</td>
+          </tr>
+          <tr class="hidden">
+            <td> <b>Company Name</b> </td>
+            <td class="sender-company">{{ waybill.qoute.company_name }}</td>
+          </tr>
+          <tr class="hidden">
+            <td> <b>Street</b> </td>
+            <td class="sender-street"></td>
+          </tr>
+          <tr class="hidden">
+            <td> <b>City</b> </td>
+            <td class="sender-city"></td>
+          </tr>
+          <tr class="hidden">
+            <td> <b>Country</b> </td>
+            <td class="sender-country"></td>
+          </tr>
+          <tr class="hidden">
+            <td> <b>Postal Code</b> </td>
+            <td class="sender-postal"></td>
+          </tr>
+        </table>
+        <hr class="mt-0"/>
+        <div class="">
+          <p class="sender-f-addr pickup_addre mb-0">{{ waybill.qoute.pickup_address }}</p>
+          <p class="sender-f-branch collection_branch_lbl"><strong> {{ waybill.qoute.collection_branch }}</strong> </p>
+        </div>
+  
+      </div>
+  
+      <div class="card shadow col-md-6 receiver">
+        <h1>TO:</h1>
+        <table class="table table-stripped">
+  
+          <tbody>
+              <tr>
+                <td> <b>Name</b> </td>
+                <td class="receiver_name">{{ waybill.qoute.receiver_name }}</td>
+              </tr>
+              <tr>
+                <td> <b>Cellphone</b> </td>
+                <td class="receiver_phone ">{{ waybill.qoute.receiver_phone }}</td>
+              </tr>
+              <tr>
+                <td> <b>Email</b> </td>
+                <td class="receiver_email">{{ waybill.qoute.receiver_email }}</td>
+              </tr>
+              <tr class="hidden">
+                <td> <b>Company Name</b> </td>
+                <td class="receiver_company">{{ waybill.qoute.receiver_company }}</td>
+              </tr>
+  
+              <tr class="hidden">
+                <td> <b>Street</b> </td>
+                <td class="receiver-street"></td>
+              </tr>
+              <tr class="hidden">
+                <td> <b>City</b> </td>
+                <td class="receiver-city"></td>
+              </tr>
+              <tr class="hidden">
+                <td> <b>Country</b> </td>
+                <td class="receiver-country"></td>
+              </tr>
+              <tr class="hidden">
+                <td> <b>Postal Code</b> </td>
+                <td class="receiver-postal"></td>
+              </tr>
+            </tbody>
+        </table>
+        <hr class="mt-0"/>
+        <div class="">
+          <p class="sender-f-addr dest_addr mb-0">{{ waybill.qoute.destination_address }}</p>
+          <p class="sender-f-branch destination_branch_lbl"><strong>{{ waybill.qoute.destination_branch }}</strong> </p>
+        </div>
+      </div>
+  
+    </div>
+  
+  <hr/>
+    <!-- Parcel Details -->
+    <div class="row parcel-details">
+  
+      <div class="col-md-4 delivery-status">
+        <label>Service Details</label>
+        <h3 class="serv_type">{{ waybill.qoute.service_type }}</h3>
+        <h5>Additional Services</h5>
+        <ul class="hidden">
+          <li class="">
+            <small>Insurance</small>
+          </li>
+          <li class="">
+            <small>After hours delivery</small>
+          </li>
+          <li class="">
+            <small>Weekend Delivery</small>
+          </li>
+          <li class="">
+            <small>Outskirt Delivery</small>
+          </li>
+        </ul>
+      </div>
+  
+      <div class="col parcels">
+        <label>Parcel Details</label>
+        <div class="table-responsive">
+        <table class="table pacakge_details">
+          <thead >
+            <tr>
+              <th scope="col">Desc</th>
+              <th scope="col">Weight</th>
+              <th scope="col">height</th>
+              <th scope="col">length</th>
+              <th scope="col">width</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let package of waybill.package; index as i"> 
+              <td> {{ package.package_desc }} </td>
+              <td>{{ package.weight }}</td>
+              <td>{{ package.height }} </td>
+              <td>{{ package.length }} </td>
+              <td>{{ package.width }} </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+  
+        <h5>Special instructions</h5>
+        <p class="note_text"> {{ waybill.qoute.note }} </p>
+  
+      </div>
+  
+  
+    </div>
+  <!-- <hr/> -->
+  <hr/>
+  <!-- Driver Details -->
+    <div class="row driver_details " [ngClass]="{'hidden': !waybill.driver}">
+      <div class="col-md-12">
+        <label>Driver Details</label>
+        <div class="table-responsive driver-details">
+          <table class="table driver_details">
+            <thead >
+              <tr>
+                <th scope="col">Driver name</th>
+                <th scope="col">Cellphone</th>
+                <th scope="col">Alt Number</th>
+                <th scope="col">Vehicle Reg</th>
+                <th scope="col">Route</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+  
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  
+    </div>
+
+    <!-- Delivery Status -->
+    <div class="row delivery-sign parcel_delivered " [ngClass]="{'hidden': waybill.qoute.delivery_status !== 'delivered'}">
+  
+      <div class="col">
+        <label>Delivery Status</label>
+        <p>
+          <strong>{{ waybill.qoute.delivery_status }}</strong>
+        </p>
+      </div>
+      <div class="col">
+        <label>Delivered on</label>
+        <p class=" signed_on_lbl">{{ waybill.qoute.signed_on }}</p>
+      </div>
+      <div class="col">
+        <label>Signed By</label>
+        <p class="receiver_name signed_by_lbl">{{ waybill.qoute.signed_by }}</p>
+      </div>
+      <div class="col">
+        <label>Contents Confirmed</label>
+        <p>Yes</p>
+      </div>
+  
+      <div class="col-md-12 ">
+        <label>Signature</label> <br>
+        <img width="300" class="signed_print" src="https://upload.wikimedia.org/wikipedia/commons/1/13/Signature_of_Robert_Mugabe_clear.svg" alt="">
+      </div>
+  
+      <div class="col-md-12">
+        <br/>
+        <small>I/WE AGREE TO BE BOUND BY THE STANDARD CONDITIONS OF CARRIAGE WHICH APPEAR ON THE REVERSE SIDE OF THIS DOCUMENT.</small>
+      </div>
+    </div>
+      </div>
+
+      <div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+    <div class="col-md-4 quote_action_menu">
+
+        <button type="button" class="btn btn-danger close_edit" (click)="closeWaybillView()">Close</button>
+
+        <h4 class="package_status"></h4>
+
+        <div class="action_error">
+
+       </div>
+
+       <div class="waybill-actions ">
+           <div class="action_menu_container change_tracking_action admin_action">
+             <div class="tracking_actions">
+               <h6 class="navbar-heading text-muted">
+                 TRACKING STATUS 
+                 <span class="badge {{d_status_badge}}" [ngClass]="d_status_badge">
+                  {{ waybill.qoute.delivery_status }}
+                 </span>
+                </h6>
+              
+                <form [formGroup]="trackinStatusForm">
+                  <ul>
+                    <li>
+                      <!-- <span class="action_link assing_driver"><i class="ni ni-ambulance text-primary"></i> Assign a driver</span> -->
+                      <ul class="action_dropdown change_tracking">
+                        
+                        <li>
+                          <select class="form-control list_option tracking_status_list_option" formControlName="delivery_status">
+                            <option value>Change Status...</option>
+                            <option value="pending">Unpaid</option>
+                            <option value="collection">Waiting for collection</option>
+                            <option value="pickup">Scheduled for pickup</option>
+                            <option value="in_transit">in transit</option>
+                            <option value="at_branch">At Branch</option>
+                            <option value="delivered">Delivered</option>
+                            <option value="other">Other</option>
+                          </select>
+                        </li>
+                        <li>
+                          <input type="text" class="delivery_note form-control" id="delivery_note" name="delivery_note" formControlName="delivery_note" value="delivery_note" placeholder="Write delivery note..."/>
+                        </li>
+                        <li class="signature_details">
+
+                          <div class="row">
+                            <div class="col">
+                              <small>Signed by</small><br/>
+                              <input type="text" class="signed_by_input form-control form-control-sm" id="signed_by" name="signed_by" formControlName="signed_by" value="{{trackinStatusForm.value.signed_by}}" placeholder=""/>
+                            </div>
+                            <div class="col">
+                              <small>On</small><br/>
+                              <input type="date" class="signed_on_input form-control form-control-sm" id="signed_on" name="signed_on" fromControlName="signed_on" value="" placeholder=""/>
+                            </div>
+                          </div>
+                          
+                        </li>
+
+
+                        <li> <button (click)="updateTrackingStatus()" type="button" id="" data-action="update_status" class="btn btn-dark btn-sm qoute_action quote-action-btn update_status">Update Status</button></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </form>
+             </div>
+           </div>
+
+
+
+            <div class="action_menu_container select_driver_action admin_action">
+              <div class="driver_actions">
+                <h6 class="navbar-heading text-muted">SELECT DRIVER</h6>
+
+                <form [formGroup]="changeDriverForm">
+                  <ul>
+                    <li>
+                      <!-- <span class="action_link assing_driver"><i class="ni ni-ambulance text-primary"></i> Assign a driver</span> -->
+                      <ul class="action_dropdown assing_driver">
+                        <li [ngClass]="{'hidden': !waybill.qoute.driver_id}">
+                          <h4 class="driver_name" style="display: inline-block; margin-bottom:1.5rem;"></h4>
+                        </li>
+                        <li>
+                          <select class="form-control list_option drivers_list_option" formControlName="driver_id">
+                            <option value>select driver...</option>
+                            <option value="ephraim">Ephraim</option>
+                            <option value="bmw">BMW Nika</option>
+                            <option value="tazz">Tazz Nika</option>
+                          </select>
+                        </li>
+
+                        <li>
+                          <select class="form-control list_option deliver_list_option" formControlName="branch">
+                            <option value>Where to deliver?</option>
+                            <option value="to_client">Straight to Client.</option>
+                            <option value="witbank">Witbank Branch</option>
+                            <option value="kempton">Kempton Park Branch.</option>
+                            <option value="rusternburg">Rusternburg Branch.</option>
+                          </select>
+                        </li>
+
+                        <li> <button (click)="updateDriver()" type="button" id="" data-action="schedule" class="btn btn-dark btn-sm qoute_action schedule_pickup">Schedule Driver</button></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </form>
+              </div>
+            </div>
+
+
+            <div class="action_menu_container">
+              <div class="payment_actions">
+                <h6 class="navbar-heading text-muted">PAYMENTS</h6>
+                <ul>
+                     <li class="clear_pay_action">
+                      <button (click)="clearEFTpay()" data-action="clear_as_paid" class="btn qoute_action action_link clear_eft_pay"><i class="ni ni-time-alarm text-primary"></i> Clear EFT Payment</button>
+                    </li>
+                    <li>
+                     <button (click)="clearEFTpay()" data-action="set_unpaid" class="btn qoute_action action_link clear_eft_pay text-danger"><i class="ni ni-time-alarm text-danger"></i> Mark as unpaid</button>
+                   </li>
+                </ul>
+                <hr class="my-3">
+              </div>
+          </div>
+
+
+            <div class="action_menu_container email_action">
+              <div class="email_actions">
+                  <h6 class="navbar-heading text-muted">EMAILS</h6>
+                  <ul>
+                    <li>
+                      <button (click)="emailWaybill()" class="btn action_link email_quote email_action_btn"> <i class="ni ni-email-83 text-primary"></i> Email this quote</button>
+                    </li>
+
+                     <li>
+                      <button (click)="emailWaybillPayReminder()" class="btn action_link pay_reminder email_action_btn"><i class="ni ni-time-alarm text-primary"></i> Send payment reminder</button>
+                    </li>
+
+                </ul>
+                <hr class="my-3">
+              </div>
+          </div>
+
+          <div class="action_menu_container other_action">
+            <h6 class="navbar-heading text-muted">OTHER</h6>
+            <ul>
+              <!-- <li>
+                  <button id="" data-action="save" class="action_link save_n_confirm qoute_action"><i class="ni ni-check-bold text-primary"></i> Save as Delivered</button>
+                </li> -->
+              <li class="">
+                <button (click)="cancelWayblill()" id="" data-action="cancel" class="btn action_link cancel_trans qoute_action text-danger"> <i style="font-size: 20px;" class="ni ni-fat-remove text-danger"></i> Cancel this transaction</button>
+              </li>
+
+          </ul>
+        </div>
+
+    </div> <!-- CLOSE QUOTE ACTIONS -->
+
+
+
+  </div> 
+</div>
+
+
+
+
+
+
+
+
+

@@ -1,1 +1,236 @@
 /* You can add global styles to this file, and also import other style files */
+// regular style toast
+@import '~ngx-toastr/toastr';
+
+
+body .bg-gradient-danger {
+    background: linear-gradient(87deg, #000000 0, #3c1920 100%) !important;
+}
+
+// .card-header:first-child {
+//     // border-radius: 0px !important;
+//     background-color: #1e254e !important;
+//     color: #ffffff !important;
+//     h3{
+//         color: #ffffff !important;
+//     }
+// }
+
+// .card.bg-secondary.shadow {
+//     background-color: #1e254e!important;
+//     border-radius: 0px !important;
+//     padding: 0px;
+
+//     input, textarea{
+//         background-color: transparent !important;
+//         color: #ffffff !important;
+//         border: 1px solid #ffffff !important;
+//     }
+// }
+
+.address-bar{
+    padding-top: 1rem;
+}
+.address-bar.to {
+    // background-color: #293365;
+    border-radius: 10px !important;
+    border: 1px dashed;
+}
+.col-xl-12.order-xl-1 {
+    margin-bottom: 1.5rem;
+}
+
+.hidden{
+    display: none !important;
+}
+
+.navbar-vertical.navbar-expand-md{
+    background-color:  #1c345d !important ;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: rgba(29,161,242,1.00) !important; 
+    font-weight: bold !important;
+}
+
+.card.bg-default.shadow {
+    border: 0px;
+    border-radius: 15px !important;
+    overflow: hidden;
+}
+
+.card.bg-secondary.shadow {
+    background-color: #dde2e4 !important;
+}
+
+.filter-card{
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    &:hover{
+        background-color: #172b4d !important;
+        .h2{
+            color: #ffffff !important;
+        }
+    }
+}
+
+.filter-card.active {
+    background-color: #172b4d !important;
+    .h2{
+        color: #ffffff !important;
+    }
+}
+
+
+.waybills-table{
+    .single-waybill{
+        cursor: pointer;
+        &:hover{
+            background-color: #1c345d !important;
+        }
+    }
+}
+
+
+
+
+.view_qoute_screen{
+	width: 101vw;
+	height: 100vh;
+	position: fixed;
+	z-index: 99;
+	/*background-color:#000000f2 ;*/
+    background-color:#ffffff !important;
+	top: 0;
+	left: 0;
+    overflow-y: scroll;
+    display: none !important;
+    
+    .paid_online_badge {
+        border: 3px solid #000 !important;
+        color: #000 !important;
+    }
+
+    .view_overlay {
+        position: fixed;
+        background-color:#f5efef !important;
+        width: 80vw;
+        height: 100vh;
+        overflow: scroll;
+        top: 0;
+        z-index: 999;
+        left: 0;
+        box-shadow: aliceblue;
+        padding: 3em;
+        margin-bottom: 0;
+        overflow-x: hidden !important;
+    }
+
+    .quote_action_menu {
+        position: fixed;
+        right: 0em;
+        top: 0;
+        padding-top: 5rem !important;
+        padding: 2em;
+        overflow: scroll;
+        height: 100vh;
+        padding-bottom: 3rem;
+
+        ul{
+            list-style-type: none;
+            padding: 0 !important;
+        }
+        .close_edit {
+            position: absolute;
+            right: 1.7rem;
+            top: 1.7rem;
+        }
+    }
+
+    .row.collection-details .card {
+        margin: 0.2rem auto !important;
+        max-width: 48% !important;
+        padding: 1rem;
+    }
+
+    .general-details {
+        align-items: baseline;
+    }
+
+    .form-control{
+        margin-bottom: 0.8rem;
+        padding: 0.5rem;
+        color: #000000;
+    }
+
+
+}
+
+.view_qoute_screen.active{
+    display: flex !important;
+}
+
+a.nav-link.incomplete {
+    color: #ff4a4a !important;
+}
+
+.view_qoute_screen .locations .card {
+
+    color: #fff;
+    background-color: #172b4d !important;
+}
+
+.view_qoute_screen .locations .card .card-title{
+    color: #ffffff;
+}
+
+.view_qoute_screen .locations .card hr{
+    border: 1px dotted rgb(97, 89, 144);
+}
+
+.view_qoute_screen thead {
+    background-color: #cac7c7 !important;
+    border: 0px;
+    font-weight: bold !important;
+}
+
+div#toast-container {
+    padding: 2rem;
+}
+
+.form-control {
+    font-size: 0.875rem;
+    color: #000000 !important;
+}
+
+.toast-container.toast-top-center .ngx-toastr, .toast-container.toast-bottom-center .ngx-toastr {
+    width: max-content !important;
+}
+
+.loading-text{
+    margin-top: 2rem;
+}
+
+.container-xl, .container-lg, .container-md, .container-sm, .container {
+    max-width: 97% !important;
+}
+
+.toast-container .ngx-toastr {
+    padding: 12px 20px 12px 60px !important;
+    border-radius: 12px !important;
+}
+
+.action_menu_container{
+    margin-bottom: 1rem !important;
+}
+
+.change_tracking_action.admin_action,
+.select_driver_action.admin_action {
+    background-color: #f5efef;
+    padding: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+table td {
+    padding: 5px 15px !important;
+}

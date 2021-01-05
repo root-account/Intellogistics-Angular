@@ -8,16 +8,9 @@ declare interface RouteInfo {
     class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/dashboard', title: 'New Collection',  icon: 'ni-tv-2 text-primary', class: '' },
-    { path: '/icons', title: 'Clear Payment',  icon:'ni-planet text-blue', class: '' },
-    { path: '/maps', title: 'Track Parcel',  icon:'ni-pin-3 text-orange', class: '' },
-    { path: '/user-profile', title: 'Register Driver',  icon:'ni-single-02 text-yellow', class: '' },
-    // { path: '/tables', title: 'Manage Orders',  icon:'ni-bullet-list-67 text-red', class: '' },
-    // { path: '/login', title: 'All Orders',  icon:'ni-key-25 text-info', class: '' },
-    // { path: '/register', title: 'Drivers',  icon:'ni-circle-08 text-pink', class: '' },
-    // { path: '/register', title: 'Customers & Clients',  icon:'ni-circle-08 text-pink', class: '' },
-    // { path: '/register', title: 'Rates & Services',  icon:'ni-circle-08 text-pink', class: '' },
-    // { path: '/register', title: 'Branches',  icon:'ni-circle-08 text-pink', class: '' }
+    { path: '/new-collection', title: 'New Collection',  icon: 'ni-tv-2 text-primary', class: '' },
+    { path: '/clear-payment', title: 'Clear Payment',  icon:'ni-planet text-blue', class: '' },
+    { path: '/track', title: 'Track Parcel',  icon:'ni-pin-3 text-orange', class: '' },
 ];
 
 @Component({

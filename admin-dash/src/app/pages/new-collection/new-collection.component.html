@@ -1,0 +1,406 @@
+<ngx-spinner
+bdColor="rgba(0,0,0,0.9)"
+>
+  <p style="font-size: 16px; color: white"> {{loading_msg}} </p>
+</ngx-spinner>
+
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 400px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+    <!-- Mask -->
+    <span class="mask bg-gradient-danger opacity-8"></span>
+    <!-- Header container -->
+    <div class="container-fluid d-flex align-items-center animated fadeIn">
+      <div class="row">
+        <div class="col">
+          <h1 class="display-2 text-white">New Collection</h1>
+          <p class="text-white ">Fill in the below details to request a collection from us.</p>
+          <!-- <a href="#!" class="btn btn-info">Edit profile</a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid mt--7">
+    <form [formGroup]='collectFormGroup' [hidden]="formSuccess" class=""> 
+
+    <div class="row">
+
+      <div class="col-xl-12 order-xl-1">
+        <div class="card bg-secondary shadow animated fadeIn delay-1s">
+
+          <div class="card-body">
+            
+              <div class="row">
+                <!-- FROM -->
+                  <div class="col-lg-6 address-bar from">
+                    <h2 class="text-muted mb-4">FROM: <span class="badge badge-primary"> {{fromRegion}} </span> </h2>
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email">Address</label>
+                         <input type="text" class="form-control form-control-alternative" placeholder="Enter a location & select from the dropdown"
+                          ngx-google-places-autocomplete [options]= 'options'  (onAddressChange)="fromAddressChange($event)"
+                          formControlName="pickup_address"
+                         />
+                        <small class="text-danger" *ngIf> 
+                          <strong>
+
+                          </strong>
+                        </small>
+                      </div>
+
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-username">Full Name</label>
+                          <input type="text" class="form-control form-control-alternative" formControlName="cust_name">
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-email">Surname</label>
+                          <input type="email" class="form-control form-control-alternative" placeholder="" formControlName="surname">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-first-name">Email</label>
+                          <input type="text" class="form-control form-control-alternative" formControlName="email_addr">
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-last-name">Cellphone No</label>
+                          <input type="text" class="form-control form-control-alternative" formControlName="cellphone">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- TO -->
+                  <div class="col-lg-6 address-bar to">
+                    <h2 class="text-muted mb-4">TO: <span class="badge badge-primary"> {{toRegion}} </span> </h2>
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email">Address</label>
+                        <input type="text" class="form-control form-control-alternative" placeholder="Enter a location & select from the dropdown"
+                          ngx-google-places-autocomplete [options]= 'options'  (onAddressChange)="toAddressChange($event)"
+                          formControlName="destination_address"
+                         />
+                      </div>
+
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-username">Receiver name & surnamr</label>
+                          <input type="text"  class="form-control form-control-alternative" formControlName="receiver_name">
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-email">Cellphone no</label>
+                          <input type="email" class="form-control form-control-alternative" formControlName="receiver_phone">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-first-name">Email</label>
+                          <input type="text"  class="form-control form-control-alternative" formControlName="receiver_email">
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-last-name">Company</label>
+                          <input type="text" class="form-control form-control-alternative"  formControlName="receiver_company">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+                
+          </div> <!-- End Card Body-->
+        </div>
+      </div>
+
+      <br/>
+      <br/>
+      
+      <!-- PARCEL DETAILS -->
+      <div class="col-xl-12 order-xl-1">
+        <div class="card bg-secondary shadow animated fadeIn delay-2s">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Parcels</h3>
+              </div>
+              <!-- <div class="col-4 text-right">
+                <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+              </div> -->
+            </div>
+          </div>
+          <div class="card-body">
+              <div formArrayName="packages">
+              <div class="row" *ngFor="let package of packagesForms.controls; index as i" [formGroupName]="i">
+                <div class="col-md-2" >
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Weight</label>
+                    <input id="input-address" class="form-control form-control-alternative" type="number" formControlName="weight">
+                  </div>
+                </div>
+                <div class="col-lg-2">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-city">Length</label>
+                    <input type="text" id="input-city" class="form-control form-control-alternative" formControlName="length">
+                  </div>
+                </div>
+                <div class="col-lg-2">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Width</label>
+                    <input type="number" id="input-country" class="form-control form-control-alternative" formControlName="width">
+                  </div>
+                </div>
+                <div class="col-lg-2">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Height </label>
+                    <input type="number" id="input-postal-code" class="form-control form-control-alternative" formControlName="height">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Desc </label>
+                    <input type="text" id="input-postal-code" class="form-control form-control-alternative" formControlName="pack_desc">
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="col">
+                    <button class="btn btn-danger" (click)="deletePack(i)">-</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+              <div class="row">
+                <div class="col">
+                  <button class="btn btn-outline-primary" (click)="anotherPackage()">Add a parcel</button>
+                </div>
+                <div class="col">
+                  <input type="checkbox" id="no_dimentions" name="no_dimentions" formControlName="no_dimentions"> I don't have parcel Dimensions
+                </div>
+              </div>
+          </div>
+          </div>
+        </div>
+
+
+         <!-- SELECT  SERVICE -->
+      <div class="col-xl-12 order-xl-1" [ngClass]="{'hidden': !showServicesForm }">
+        <!--*******************
+            SELECT SERVICES
+          ********************-->
+          <div class="card quote_card quote_service_card bg-secondary shadow ">
+            <div class="card-header">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">Choose a service</h3>
+                </div>
+
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="service_region_heading">Region </p>
+              <h2 class="service_region"> {{service_region}} </h2>
+
+              <div class="row service_select">
+                <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-md-6 service_box">
+
+                        <div class="main_services">
+
+                          <div class="form-check" *ngFor="let rate of rates; index as i">												
+                            <input class="form-check-input service_radio_btn" type="radio" name="service_type" formControlName="service_type" id="main_service_{{rate.id}}" value="{{rate.id}}">
+                            <label class="form-check-label" for="main_service_{{rate.id}}">
+                              {{ rate.service_type }}
+                              <span class="service_desc hidden">{{ rate.service_desc }}</span>												
+                            </label>											
+                          </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 service_box additional_services">
+                        <h4>Additional Services</h4>
+
+                        <div class="form-check" *ngFor="let xtr_serv of additional_rates; index as i">
+                          <input class="form-check-input" type="checkbox" name="extra_service" id="main_service_{{xtr_serv.id}}" value="{{xtr_serv.service_type}}">
+                          <label class="form-check-label" for="defaultCheck1">
+                            {{ xtr_serv.service_type }}
+                          </label>
+                        </div>
+                          
+                    </div>
+                  </div>
+
+                    <hr/>
+                    <div class="row">
+                      <div class="col-md-12 service_desc_container">
+                          <p class="service_desc"></p>
+                      </div>
+                    </div>
+
+                    <div class="final_notes">
+                    <div class="row">
+                      <div class="col form-holder w-100">
+                        <label>Notes or Instructions</label>
+                        <input type="text" name="special_note" placeholder="Note or Instructions" id="special_note" class="form-control" formControlName="special_note">
+
+                        <!-- </textarea> -->
+                      </div>
+                    </div>
+
+                    <label class="quote_disclaimer">Quote prices are based on the the information you provide and are subject to verification. The quoted amount can changed should your package information, address change or you request additional services </label>
+
+                     <div class="quote_terms_agree checkbox">
+                      <label>
+                        <input type="checkbox" id="accept_terms" name="accept_terms" formControlName="accept_terms"> I have read and accept the <a href="#" target="_blank">terms and conditions.</a>
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+
+                    <div class="form-row mb-21">
+                      <div class="form-errors step-4-errors">
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Submit btn -->
+                  <div class="row send_quote_actions">
+                    <div class="col">
+                      <button type="button"  id="complet_qoute" class="btn btn-primary" (click)="submitFormRequest()">Request Collection</button>
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div class="col-md-4 calculated_rates">
+                  <h4>Quote</h4>
+                  <div class="quote_totals">
+
+                    <div class="no-dimensions-notice hidden" style="padding: 2rem;" >
+                      <h4>Parcel weight unavailable!</h4>
+                      <p>For the system to calculate price estimates you must provide the weight of the package.</p>
+                      <!-- <p>Otherwise the price will be provided later after we collect and weigh your parcel.</p> -->
+                    </div>
+
+                    <!-- <table class="table quote-price-table" [ngClass]="{'hidden': !collectFormGroup.value.no_dimentions }"> -->
+                      <table class="table quote-price-table">
+                      <tbody>
+                        <tr>
+                          <td>Service Name</td>
+                          <td class="service_type"> {{calculated_rates.service_type}} </td>
+                        </tr>
+                        <tr>
+                          <td>Parcel Weight</td>
+                          <td class="submited_weight">{{calculated_rates.weight}}KG</td>
+                        </tr>
+                        <tr>
+                          <td>Volumetric Weight</td>
+                          <td class="volumetric_weight">{{calculated_rates.volumetric_weight}}KG</td>
+                        </tr>
+                        <tr>
+                          <td>Minimum Cost</td>
+                          <td class="min_cost"><span class="user_payments badge badge-danger">R{{calculated_rates.min_cost}}</span></td>
+                        </tr>
+                        <tr>
+                          <td>Per KG Charge</td>
+                          <td class="per_kg_charge"><span class="user_oustanding badge badge-danger">R{{calculated_rates.per_kg_charge}}</span></td>
+                        </tr>
+                        <tr>
+                          <td><h4>Freight Cost</h4></td>
+                          <td class="freight_cost totals"><span class="badge badge-danger">R{{calculated_rates.freight_cost}}</span></td>
+                        </tr>
+                        <tr>
+                          <td>29% Fuel Levy</td>
+                          <td class="fuel_cost"><span class="user_oustanding badge badge-danger">R{{calculated_rates.fuel_cost}}</span></td>
+                        </tr>
+                        <tr>
+                          <td>Doc Cost</td>
+                          <td class="doc_cost"><span class="user_oustanding badge badge-danger">R{{calculated_rates.doc_cost}}</span></td>
+                        </tr>
+                        <tr>
+                          <td><h4>Sub total</h4></td>
+                          <td class="sub_total"><span class=" badge badge-danger">R{{calculated_rates.sub_total}}</span></td>
+                        </tr>
+                        <tr>
+                          <td>15% VAT</td>
+                          <td class="vat_amt"><span class="user_oustanding badge badge-danger">R{{calculated_rates.vat_amt}}</span></td>
+                        </tr>
+                        <tr>
+                          <td><h4>Grand Total</h4></td>
+                          <td class="grand_total"><span class=" badge badge-danger">R{{calculated_rates.grand_total}}</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                </div>
+              </div>
+
+
+
+            </div>
+          </div>
+
+        </div>
+
+    </div>
+    </form>
+
+    <!--*******************
+        DONE
+      ********************-->
+      <div class="row" [hidden]="!formSuccess" class="">
+        <div class="col-md-12">
+          <div class="card quote_complete bg-secondary shadow">
+
+            <div class="card-body">
+              <section class="send_qoute_step">
+
+                    <div class="success-message">
+                      <div class="success-icon">
+                        <img src="http://pharrageprojects.co.za/intellogistics/get-quote/quote/images/a827f3789c.svg">
+                      </div>
+                      <div class="success-text">
+                        <h1>REQUEST SUBMITTED</h1>
+              
+                        <p>The system has sent an email to you <b><span class="email_message"></span></b> with all details of this quote.</p>
+                        <br>
+                        <p>Tracking no: <b><span class="email_message"></span></b> </p>
+                        <br>
+                        <a href="/new-collection" class="btn btn-primary">New Quote</a>
+                      </div>
+                    </div>
+              
+              </section>
+            </div>
+    
+          </div>
+        </div>
+      </div>
+      
+
+  </div>
+  
+
+
+
+
+
+
+
+
+
+
+              

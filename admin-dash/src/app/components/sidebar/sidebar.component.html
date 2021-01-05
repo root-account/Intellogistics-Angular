@@ -7,7 +7,7 @@
     </button>
     <!-- Brand -->
     <a class="navbar-brand pt-0" routerLinkActive="active" [routerLink]="['/dashboard']">
-      <img src="./assets/img/brand/red.png" class="navbar-brand-img" alt="...">
+      <img src="https://pharrage.com/wp-content/uploads/2020/08/drawnlogored-1497995813-1-1.png" style="width: 100%; max-height: initial;" class="navbar-brand-img" alt="...">
     </a>
     <!-- User -->
     <ul class="nav align-items-center d-md-none">
@@ -38,7 +38,7 @@
             <i class="ni ni-single-02"></i>
             <span>My profile</span>
           </a> -->
-          <a routerLinkActive="active" [routerLink]="['/user-profile']" class="dropdown-item">
+          <a routerLinkActive="active" [routerLink]="['/settings']" class="dropdown-item">
             <i class="ni ni-settings-gear-65"></i>
             <span>Settings</span>
           </a>
@@ -46,7 +46,7 @@
             <i class="ni ni-calendar-grid-58"></i>
             <span>Activity</span>
           </a> -->
-          <a routerLinkActive="active" [routerLink]="['/user-profile']" class="dropdown-item">
+          <a routerLinkActive="active" [routerLink]="['/help']" class="dropdown-item">
             <i class="ni ni-support-16"></i>
             <span>Support</span>
           </a>
@@ -103,33 +103,38 @@
       <!-- Navigation -->
       <ul class="navbar-nav mb-md-3">
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']">
-            <i class="ni ni-spaceship"></i> Manage Orders
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/waybills']">
+            <i class="ni ni-spaceship"></i> Manage Waybills
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link"  [routerLink]="['/dashboard']">
-            <i class="ni ni-palette"></i> All Orders
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link"  [routerLink]="['/dashboard']">
+          <a class="nav-link"  [routerLink]="['/drivers']">
             <i class="ni ni-ui-04"></i> Drivers
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link"  [routerLink]="['/dashboard']">
+          <a class="nav-link"  [routerLink]="['/customers']">
             <i class="ni ni-ui-04"></i> Clients & Customers
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link"  [routerLink]="['/dashboard']">
+          <a class="nav-link"  [routerLink]="['/rates']">
             <i class="ni ni-ui-04"></i> Rates & Services
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link"  [routerLink]="['/dashboard']">
+          <a class="nav-link"  [routerLink]="['/branches']">
             <i class="ni ni-ui-04"></i> Branches
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"  [routerLink]="['/statistics']">
+            <i class="ni ni-ui-04"></i> Statistics & Reporting
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"  [routerLink]="['/settings']">
+            <i class="ni ni-ui-04"></i> Settings
           </a>
         </li>
 
