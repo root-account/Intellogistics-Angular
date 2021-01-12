@@ -232,6 +232,7 @@ export class WaybillsComponent implements OnInit {
     }); //end subscribe get all
   }
 
+  // get single waybill
   getSingleWaybill(waybill_no):void{
     this.loading_msg = "Loading waybill "+waybill_no;
     this.spinner.show();

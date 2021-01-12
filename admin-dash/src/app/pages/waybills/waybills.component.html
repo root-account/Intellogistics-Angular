@@ -201,9 +201,10 @@ bdColor="rgba(0,0,0,0.9)"
                 <th scope="col">Client Name</th>
                 <th scope="col">Service</th>
                 <th scope="col">From</th>
-                <th scope="col">Payment Status</th>
-                <th scope="col">Delivery status</th>
-                <th scope="col"></th> 
+                <th scope="col">To</th> 
+                <th scope="col">Driver</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
@@ -213,9 +214,10 @@ bdColor="rgba(0,0,0,0.9)"
                 <td>{{ waybill.cust_name }} {{ waybill.surname }}</td>
                 <td>{{ waybill.service_type }}</td>
                 <td>{{ waybill.collection_branch }}</td>
-                <td>{{ waybill.payment_status }}</td>
+                <td>{{ waybill.destination_branch }}</td>
+                <td>{{ waybill.driver_id }}</td>
                 <td>
-                  <span class="badge {{d_status_badge_table}}" [ngClass]="d_status_badge_table">
+                  <span class="badge {{d_status_badge_table}} {{ waybill.delivery_status }}" [ngClass]="d_status_badge_table">
                     {{ waybill.delivery_status }}
                    </span>
                 </td>
