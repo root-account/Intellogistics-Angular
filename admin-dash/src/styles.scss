@@ -234,3 +234,40 @@ div#toast-container {
 table td {
     padding: 5px 15px !important;
 }
+
+span.delivered {
+    color: #ffffff !important;
+    background-color: #1d9e1d;
+    letter-spacing: 1px;
+}
+
+span.in_transit {
+    background-color: transparent;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+span.pickup,
+span.collection {
+    color: #ffffff !important;
+    letter-spacing: 1px;
+}
+
+span.cancelled {
+    color: #ffffff !important;
+    background-color: #b91616;
+    letter-spacing: 1px;
+}
+
+span.at_branch {
+    color: #ffffff !important;
+    background-color: #6363f7;
+    letter-spacing: 1px;
+}
+
+span.pending {
+    color: #282880;
+    background-color: #ecec15;
+    letter-spacing: 1px;
+}
