@@ -20,8 +20,8 @@ class Home extends React.Component{
       serviceBannerText:'',
       serviceIconName:'',
       iconOpacity:0,
-      displayServices:'none',
-      displayTackingMap:'flex',
+      displayServices:'flex',
+      displayTackingMap:'none',
     }
   }
 
