@@ -109,29 +109,56 @@
           <h3 class="text-white mb-0">Card tables</h3>
         </div> -->
         <div class="table-responsive">
-          <table class="table align-items-center table-dark table-flush">
+          <table  class="table align-items-center table-dark table-flush animated fadeIn waybills-table">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">Project</th>
-                <th scope="col">Budget</th>
-                <th scope="col">Status</th>
-                <th scope="col">Users</th>
-                <th scope="col">Completion</th>
-                <th scope="col"></th>
+                <th scope="col">ID</th>
+                <th scope="col">Names</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Phone_No</th>
+                <th scope="col">Email</th>
+                <th scope="col">Accept Terms</th>
+                <th scope="col">Billing Type</th>
+                
+                
               </tr>
             </thead>
-
             <tbody>
-                <tr>
-                  <td>Project</td>
-                  <td>Project</td>
-                  <td>Project</td>
-                  <td>Project</td>
-                  <td>Project</td>
-                  <td>Project</td>
-                </tr>
+              <tr class="single-waybill" *ngFor="let customer of customers; index as i" (click)="getSingleCustomer(customer.user_id)" > 
+                <td>{{ customer.user_id }}</td>
+                <td>{{ customer.names }}</td>
+                <td>{{ customer.surname }}</td>
+                <td>{{ customer.phone_no }}</td>
+                <td>{{ customer.user_email }}</td>
+                <td>{{ customer.accept_terms }}</td>
+                <td>{{ customer.billing_type }}</td>
+                
+                
+                <!-- <td>{{ waybill.date_created }}</td>
+                <td>{{ waybill.cust_name }} {{ waybill.surname }}</td>
+                <td>{{ waybill.service_type }}</td>
+                <td>{{ waybill.collection_branch }}</td>
+                <td>{{ waybill.payment_status }}</td> -->
+                <td>
+                  <span class="badge {{d_status_badge_table}}" [ngClass]="d_status_badge_table">
+                    <!-- {{ waybill.delivery_status }} -->
+                   </span>
+                </td>
+                <td class="text-right">
+                  <div ngbDropdown placement="bottom-right">
+                    <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+                      <a class="dropdown-item" href="javascript:void(0)">Action</a>
+                      <a class="dropdown-item" href="javascript:void(0)">Another action</a>
+                      <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              
             </tbody>
-            
           </table>
         </div>
       </div>
