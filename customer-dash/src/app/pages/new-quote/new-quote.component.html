@@ -1,0 +1,442 @@
+<ngx-spinner
+bdColor="rgba(0,0,0,0.9)"
+>
+  <p style="font-size: 16px; color: white"> {{loading_msg}} </p>
+</ngx-spinner>
+
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 400px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+    <!-- Mask -->
+    <span class="mask bg-gradient-danger opacity-8"></span>
+    <!-- Header container -->
+    <div class="container-fluid d-flex align-items-center animated fadeIn">
+      <div class="row">
+        <div class="col">
+          <h1 class="display-2 text-white">Get a quote</h1>
+          <p class="text-white ">Fill in the below details to get a quote from multiple courier companies.</p>
+          <!-- <a href="#!" class="btn btn-info">Edit profile</a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid mt--7">
+    
+
+    <div class="">
+    <form [formGroup]='collectFormGroup' [hidden]="formSuccess" class="row"> 
+      <div class="col-xl-12 order-xl-1">
+        <div class="card bg-secondary shadow animated fadeInUp">
+
+          <div class="card-body">
+            
+              <div class="row">
+                <!-- FROM -->
+                  <div class="col-lg-6 address-bar from">
+                    <h2 class="text-muted mb-4">FROM: <span class="badge badge-primary"> {{fromRegion}} </span> </h2>
+                      <div class="form-group">
+                        <!-- <label class="form-control-label" for="input-email">Address</label> -->
+                         <input type="text" class="form-control form-control-alternative" placeholder="Enter a location & select from the dropdown"
+                          ngx-google-places-autocomplete [options]= 'options'  (onAddressChange)="fromAddressChange($event)"
+                          formControlName="pickup_address"
+                         />
+                        <small class="text-danger" *ngIf> 
+                          <strong>
+
+                          </strong>
+                        </small>
+                      </div>
+                  </div>
+
+                  <!-- TO -->
+                  <div class="col-lg-6 address-bar to">
+                    <h2 class="text-muted mb-4">TO: <span class="badge badge-primary"> {{toRegion}} </span> </h2>
+                      <div class="form-group">
+                        <!-- <label class="form-control-label" for="input-email">Address</label> -->
+                        <input type="text" class="form-control form-control-alternative" placeholder="Enter a location & select from the dropdown"
+                          ngx-google-places-autocomplete [options]= 'options'  (onAddressChange)="toAddressChange($event)"
+                          formControlName="destination_address"
+                         />
+                      </div>
+                  </div>
+
+              </div>
+
+                
+          </div> <!-- End Card Body-->
+        </div>
+      </div>
+
+      <br/>
+      <br/>
+      
+      <!-- PARCEL DETAILS -->
+      <div class="col-xl-12 order-xl-1">
+        <div class="card bg-secondary shadow animated fadeInUp delay-1s">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Parcels</h3>
+              </div>
+              <!-- <div class="col-4 text-right">
+                <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+              </div> -->
+            </div>
+          </div>
+          <div class="card-body">
+              <div formArrayName="packages">
+              <div class="row" *ngFor="let package of packagesForms.controls; index as i" [formGroupName]="i">
+                <div class="col-md-2" >
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Weight</label>
+                    <input id="input-address" class="form-control form-control-alternative" type="number" formControlName="weight">
+                  </div>
+                </div>
+                <div class="col-lg-2">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-city">Length</label>
+                    <input type="number" id="input-city" class="form-control form-control-alternative" formControlName="length" >
+                  </div>
+                </div>
+                <div class="col-lg-2">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Width</label>
+                    <input type="number" id="input-country" class="form-control form-control-alternative" formControlName="width">
+                  </div>
+                </div>
+                <div class="col-lg-2">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Height </label>
+                    <input type="number" id="input-postal-code" class="form-control form-control-alternative" formControlName="height" >
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Desc </label>
+                    <input type="text" id="input-postal-code" class="form-control form-control-alternative" formControlName="pack_desc" >
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="col">
+                    <button class="btn btn-danger" (click)="deletePack(i)">-</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+              <div class="row">
+                <div class="col">
+                  <button class="btn btn-primary" (click)="anotherPackage()">Add a parcel</button>
+                </div>
+                <!-- <div class="col">
+                  <input type="checkbox" id="no_dimentions" name="no_dimentions" formControlName="no_dimentions"> I don't have parcel Dimensions
+                </div> -->
+              </div>
+          </div>
+          </div>
+        </div>
+
+
+         <!-- SELECT  SERVICE -->
+      <div class="col-xl-12 order-xl-1" [ngClass]="{'hidden': !showServicesForm }">
+        <!-- <div class="col-xl-12 order-xl-1" > -->
+        <!--*******************
+            SELECT SERVICES
+          ********************-->
+          <div class="card quote_card quote_service_card bg-secondary shadow ">
+            <div class="card-header">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">Choose a service</h3>
+                </div>
+
+              </div>
+            </div>
+            <div class="card-body">
+
+              <div class="row service_select">
+                <div class="col-md-12">
+                  <div class="main_services">
+                    
+                    <div class=" radio-tile-group" *ngFor="let service of all_services; index as i">			
+
+                      <div class="input-container">
+                        <input id="walk" class="radio-button" type="radio" name="service_type" formControlName="service_type" id="main_service_{{service.service_id}}" value="{{service.service_id}}"/>
+                        <div class="radio-tile">
+                          <!-- <div class="icon walk-icon">
+                            <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M0 0h24v24H0z" fill="none"/>
+                              <path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/>
+                            </svg>
+                          </div> -->
+                          <label for="main_service_{{service.service_id}}" class="radio-tile-label">{{ service.service_name }}</label>
+                        </div>
+                      </div>
+                      <!-- <span class="service_desc">{{ service.service_desc }}</span>				 -->
+
+                    </div>
+
+                  </div>
+                  <br/>
+                  <p> <b> {{service_desc}} </b> </p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-8">
+              
+                  <!-- SERVICE PROVIDER -->
+                  <div class="row service-provider-container animated fadeInUp " [ngClass]="{'selected': quote.company_data.serviceProviderID == selectedProvider }" [ngClass]="{'hidden': !collectFormGroup.value.service_type }"  *ngFor="let quote of all_quotes; index as i">
+                    <div class="col col-md-3 company_logo">
+                      <img src="{{quote.company_data.company_logo}}" alt="">
+                    </div>
+                    <div class="col col-md-6 quoute-details" >
+                      <h3>{{ quote.company_data.company_name }} </h3>
+                      <div class="courier-review">
+                        <small>Rated: </small>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <div class="courier-links">
+                            <a href="#"> Reviews (5)</a>
+                            <a href="#"> About Company </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col col-m-3">
+                      <h2>R{{quote.rates.grand_total}}</h2>
+                      <button class="btn btn-sm btn-primary" [ngClass]="{'hidden': quote.company_data.serviceProviderID == selectedProvider }" (click)="selectCourier(i)">Select Courier</button>
+                      <div class="is_selected animated fadeIn" [ngClass]="{'hidden': quote.company_data.serviceProviderID != selectedProvider }">
+                        <p><i class="ni ni-check-bold"></i> Selected</p>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+
+
+                <div class="col-md-4 additional_rates"  [ngClass]="{'hidden': !collectFormGroup.value.service_type }">
+                  
+                  <div class="row dimensions-review">
+                    <div class="col-md-6">
+                      <span><small>Total Weight:</small></span>
+                      <h4> {{total_weight}} KG</h4>
+                    </div>
+                    <div class="col-md-6">
+                      <span><small>Volumetric Weight:</small></span>
+                      <h4> {{parcel_volume}} KG</h4>
+                    </div>
+                  </div>
+
+                  <hr/>
+                  <h4>Additional Services</h4>
+                  <hr/>
+                  <div class="form-check" >
+                    <div class="extra_rate">
+                      <input class="form-check-input" type="checkbox" name="extra_service" id="add_insurance" value="add_insurance">
+                      <label class="form-check-label" for="add_insurance">
+                        Add Insurance to parcel
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-check" >
+                    <div class="extra_rate">
+                      <input class="form-check-input" type="checkbox" name="extra_service" id="after_hours" value="after_hours">
+                      <label class="form-check-label" for="after_hours">
+                        Pickup & Deliver after hours
+                      </label>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <form [formGroup]='userDetailsFormGroup' [hidden]="formSuccess" class="row">
+      <!-- USER DETAILS -->
+      <div class="col-xl-12 order-xl-1" [ngClass]="{'hidden': !selectedProvider }">
+        <!-- <div class="col-xl-12 order-xl-1" > -->
+        <!--*******************
+            USER DETAILS
+          ********************-->
+
+
+          <div class="card quote_card quote_service_card bg-secondary shadow ">
+            <div class="card-header">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">Contact Details</h3>
+                </div>
+
+              </div>
+            </div>
+            <div class="card-body">
+
+              <div class="row">
+                  <!-- SENDER DETAILS -->
+                  <div class="col-md-6 user-details sender-details"> 
+                     <h2 class="text-muted mb-4">FROM: <span class="badge badge-primary"> {{fromRegion}} </span> </h2>
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-username">Full Name</label>
+                            <input type="text" class="form-control form-control-alternative" formControlName="cust_name">
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-email">Surname</label>
+                            <input type="email" class="form-control form-control-alternative" placeholder="" formControlName="surname">
+                          </div>
+                        </div>
+                      </div>
+                  
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-first-name">Email</label>
+                            <input type="text" class="form-control form-control-alternative" formControlName="email_addr">
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-last-name">Cellphone No</label>
+                            <input type="text" class="form-control form-control-alternative" formControlName="cellphone">
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+                  <!-- RECEIVER DETAILS -->
+                  <div class="col-md-6 user-details receiver-details address-bar to">
+                    <h2 class="text-muted mb-4">TO: <span class="badge badge-primary"> {{toRegion}} </span> </h2>
+                    <div class="row ">
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-username">Receiver name & surname</label>
+                          <input type="text"  class="form-control form-control-alternative" formControlName="receiver_name">
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-email">Cellphone no</label>
+                          <input type="email" class="form-control form-control-alternative" formControlName="receiver_phone">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-first-name">Email</label>
+                          <input type="text"  class="form-control form-control-alternative" formControlName="receiver_email">
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label class="form-control-label" for="input-last-name">Company</label>
+                          <input type="text" class="form-control form-control-alternative"  formControlName="receiver_company">
+                        </div>
+                      </div>
+                    </div>
+                  </div> 
+              </div>
+
+
+            <!-- NOTES -->
+            <div class="final_notes">
+              <div class="row">
+                <div class="col form-holder w-100">
+                  <label>Notes or Instructions</label>
+                  <input type="text" name="special_note" placeholder="Note or Instructions" id="special_note" class="form-control" formControlName="special_note">
+
+                  <!-- </textarea> -->
+                </div>
+              </div>
+              <br/>
+              <p class="quote_disclaimer">Quote prices are based on the the information you provide and are subject to verification. The quoted amount can changed should your package information, address change or you request additional services </p>
+
+               <div class="quote_terms_agree checkbox">
+                <label>
+                  <input type="checkbox" id="accept_terms" name="accept_terms" formControlName="accept_terms"> I have read and accept the <a href="#" target="_blank">terms and conditions.</a>
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+
+              <div class="form-row mb-21">
+                <div class="form-errors step-4-errors">
+
+                </div>
+              </div>
+            </div>
+
+          
+
+            <!-- Submit btn -->
+            <div class="row send_quote_actions">
+              <div class="col">
+                <button type="button"  id="complet_qoute" class="btn btn-primary" (click)="submitFormRequest()">Request Collection</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+    </div>
+   
+
+    <!--*******************
+        DONE
+      ********************-->
+      <div class="row" [hidden]="!formSuccess" class="">
+        <div class="col-md-12">
+          <div class="card quote_complete bg-secondary shadow">
+
+            <div class="card-body">
+              <section class="send_qoute_step">
+
+                    <div class="success-message">
+                      <div class="success-icon">
+                        <img src="http://pharrageprojects.co.za/intellogistics/get-quote/quote/images/a827f3789c.svg">
+                      </div>
+                      <div class="success-text">
+                        <h1>REQUEST SUBMITTED</h1>
+              
+                        <p>The system has sent an email to you <b><span class="email_message"></span></b> with all details of this quote.</p>
+                        <br>
+                        <p>Tracking no: <b><span class="email_message"></span></b> </p>
+                        <br>
+                        <a href="/new-collection" class="btn btn-primary">New Quote</a>
+                      </div>
+                    </div>
+              
+              </section>
+            </div>
+    
+          </div>
+        </div>
+      </div>
+      
+
+  </div>
+  
+
+
+
+
+
+
+
+
+
+
+              
