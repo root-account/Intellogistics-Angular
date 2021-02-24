@@ -2,34 +2,26 @@
 // regular style toast
 @import '~ngx-toastr/toastr';
 
+body {
+    background-color: #eceef7 !important;
+}
 
 body .bg-gradient-danger {
     background: linear-gradient(87deg, #000000 0, #3c1920 100%) !important;
 }
 
-// .card-header:first-child {
-//     // border-radius: 0px !important;
-//     background-color: #1e254e !important;
-//     color: #ffffff !important;
-//     h3{
-//         color: #ffffff !important;
-//     }
-// }
+.footer {
+    background: transparent !important;
+    padding: 2.5rem 0;
+}
 
-// .card.bg-secondary.shadow {
-//     background-color: #1e254e!important;
-//     border-radius: 0px !important;
-//     padding: 0px;
-
-//     input, textarea{
-//         background-color: transparent !important;
-//         color: #ffffff !important;
-//         border: 1px solid #ffffff !important;
-//     }
-// }
+.navbar-horizontal .navbar-brand img {
+    height: 55px !important;
+}
 
 .address-bar{
     padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 hr {
@@ -39,8 +31,6 @@ hr {
 
 .address-bar.to {
     background-color: #f4f5fb;
-    border-radius: 10px !important;
-    border: 2px dashed #e4e6f5;
 }
 .col-xl-12.order-xl-1 {
     margin-bottom: 1.5rem;
@@ -57,6 +47,12 @@ hr {
 .navbar-light .navbar-nav .nav-link {
     color: rgba(29,161,242,1.00) !important; 
     font-weight: bold !important;
+}
+
+
+.card{
+    border: 0px !important;
+    border-radius: 0px !important;
 }
 
 .card.bg-default.shadow {
@@ -77,14 +73,16 @@ hr {
     }
 }
 
+
+
 .quote_terms_agree.checkbox {
     margin-bottom: 1rem;
 }
 
 .form-control-alternative {
-    box-shadow: 0px 1px 3px rgb(50 50 92 / 18%), 0 3px 0 rgb(0 0 0 / 4%) im !important;
-    border: 1px solid #eae6e6 !important;
-    transition: box-shadow 0.15s ease;
+    box-shadow: none !important;
+    border: 1px solid #7499d8 !important;
+    border-radius: 0px !important;
 }
 
 .filter-card{
@@ -116,6 +114,16 @@ hr {
 }
 
 
+.new-parcel-container{
+    align-items: center;
+}
+
+.remove-parcel {
+    border-radius: 50% !important;
+    width: 35px;
+    height: 35px;
+    padding: initial !important;
+}
 
 
 .view_qoute_screen{
@@ -259,6 +267,10 @@ table td {
     padding: 5px 15px !important;
 }
 
+table.waybills-table td {
+    padding: 15px 15px !important;
+}
+
 span.delivered {
     color: #ffffff !important;
     background-color: #1d9e1d;
@@ -323,7 +335,6 @@ span.pending {
 .service-provider-container {
     background-color: #f5f5f5 !important;
     margin-top: 1rem;
-    border-radius: 10px;
     position: relative;
     overflow: hidden;
     padding: 1rem 0rem;
@@ -392,10 +403,8 @@ span.pending {
     background-color: #ffffff;
     padding: 5px;
     margin-left: 10px;
-    border-radius: 10px;
     img {
         width: 100%;
-        border-radius: 10px;
     }
 }
 

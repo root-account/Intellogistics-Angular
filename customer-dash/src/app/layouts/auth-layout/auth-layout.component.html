@@ -1,8 +1,8 @@
 <div class="main-content">
   <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
     <div class="container px-4">
-      <a class="navbar-brand" routerLinkActive="active" [routerLink]="['/dashboard']">
-        <img src="assets/img/brand/argon-white.png" />
+      <a class="navbar-brand" routerLinkActive="active" [routerLink]="['/welcome']">
+        <img src="https://intellogistics.co.za/wp-content/uploads/2021/01/Intellogistics.png" />
       </a>
       <button class="navbar-toggler" type="button" (click)="isCollapsed=!isCollapsed"
          aria-controls="sidenav-collapse-main">
@@ -13,8 +13,8 @@
         <div class="navbar-collapse-header d-md-none">
           <div class="row">
             <div class="col-6 collapse-brand">
-              <a routerLinkActive="active" [routerLink]="['/dashboard']">
-                <img src="assets/img/brand/blue.png">
+              <a routerLinkActive="active" [routerLink]="['/welcome']">
+                <img src="https://intellogistics.co.za/wp-content/uploads/2021/01/Intellogistics.png">
               </a>
             </div>
             <div class="col-6 collapse-close">
@@ -28,27 +28,27 @@
         <!-- Navbar items -->
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" routerLinkActive="active" [routerLink]="['/dashboard']">
-              <i class="ni ni-planet"></i>
-              <span class="nav-link-inner--text">Dashboard</span>
+            <a class="nav-link nav-link-icon" routerLinkActive="active" [routerLink]="['/new-quote']">
+              <i class="ni ni-chart-bar-32 text-orange"></i>
+              <span class="nav-link-inner--text">Get a quote</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" routerLinkActive="active" [routerLink]="['/register']">
-              <i class="ni ni-circle-08"></i>
-              <span class="nav-link-inner--text">Register</span>
+            <a class="nav-link nav-link-icon" routerLinkActive="active" [routerLink]="['/new-collection']">
+              <i class="ni ni-delivery-fast text-orange"></i>
+              <span class="nav-link-inner--text">Send parcel</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" routerLinkActive="active" [routerLink]="['/login']">
-              <i class="ni ni-key-25"></i>
-              <span class="nav-link-inner--text">Login</span>
+            <a class="nav-link nav-link-icon" routerLinkActive="active" [routerLink]="['/track']">
+              <i class="ni ni-pin-3 text-orange"></i>
+              <span class="nav-link-inner--text">Track parcel</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" routerLinkActive="active" [routerLink]="['/user-profile']">
-              <i class="ni ni-single-02"></i>
-              <span class="nav-link-inner--text">Profile</span>
+            <a class="nav-link nav-link-icon" routerLinkActive="active" [routerLink]="['/help']">
+              <i class="ni ni-chat-round text-orange"></i>
+              <span class="nav-link-inner--text">Help</span>
             </a>
           </li>
         </ul>
@@ -62,22 +62,19 @@
     <div class="row align-items-center justify-content-xl-between">
       <div class="col-xl-6">
         <div class="copyright text-center text-xl-left text-muted">
-          &copy; {{ test | date: "yyyy" }} <a href="https://www.creative-tim.com?ref=ada-footer-auth-layout" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+          &copy; {{ test | date: "yyyy" }} <a href="https://intellogistics.co.za" class="font-weight-bold ml-1" target="_blank">Intellogistics</a>
         </div>
       </div>
       <div class="col-xl-6">
         <ul class="nav nav-footer justify-content-center justify-content-xl-end">
           <li class="nav-item">
-            <a href="https://www.creative-tim.com?ref=ada-footer-auth-layout" class="nav-link" target="_blank">Creative Tim</a>
+            <a href="https://pharrage.com" class="nav-link" target="_blank">Pharrage Team</a>
           </li>
           <li class="nav-item">
-            <a href="https://www.creative-tim.com/presentation?ref=ada-footer-auth-layout" class="nav-link" target="_blank">About Us</a>
+            <a href="https://www.creative-tim.com/presentation?ref=ada-footer-admin-layout" class="nav-link" target="_blank">About Us</a>
           </li>
           <li class="nav-item">
-            <a href="http://blog.creative-tim.com?ref=ada-footer-auth-layout" class="nav-link" target="_blank">Blog</a>
-          </li>
-          <li class="nav-item">
-            <a href="https://github.com/creativetimofficial/argon-dashboard-angular/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+            <a href="https://intellogistics.co.za/terms-conditions" class="nav-link" target="_blank">Terms of use</a>
           </li>
         </ul>
       </div>

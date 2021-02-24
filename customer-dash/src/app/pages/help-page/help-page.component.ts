@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-branches',
-  templateUrl: './branches.component.html',
-  styleUrls: ['./branches.component.css']
+  templateUrl: './help-page.component.html',
+  styleUrls: ['./help-page.component.css']
 })
-export class BranchesComponent implements OnInit {
+export class HelpPageComponent implements OnInit {
 
   constructor() { }
 
