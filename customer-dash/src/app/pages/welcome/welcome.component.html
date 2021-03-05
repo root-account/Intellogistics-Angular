@@ -1,0 +1,60 @@
+<div class="header bg-gradient-danger pb-7 py-lg-8">
+  <div class="container">
+    <div class="header-body text-center mb-4">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-6">
+          <h1 class="text-white">Welcome.</h1>
+          <p class="text-white">What would you like to do?</p>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="separator separator-bottom separator-skew zindex-100">
+    <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+    </svg>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container mt--8 pb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7">
+      <div class="card bg-secondary shadow border-0">
+
+        <div class="card-body px-lg-5 py-lg-5">
+          
+          <ul class="action-menu">
+            <li class="nav-item">
+              <a class="nav-link nav-link-icon" [routerLink]="['/new-quote']">
+                <i class="ni ni-chart-bar-32 text-orange"></i>
+                <span class="nav-link-inner--text">Get a quote</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-icon" [routerLink]="['/new-collection']">
+                <i class="ni ni-delivery-fast text-orange"></i>
+                <span class="nav-link-inner--text">Send parcel</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-icon" [routerLink]="['/track']">
+                <i class="ni ni-pin-3 text-orange"></i>
+                <span class="nav-link-inner--text">Track parcel</span>
+              </a>
+            </li>
+          </ul>
+          
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-6">
+          <a [routerLink]="['/login']" class="text-light"><small>Login to account</small></a>
+        </div>
+        <div class="col-6 text-right">
+          <a [routerLink]="['/register']" class="text-light"><small>Create new account</small></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

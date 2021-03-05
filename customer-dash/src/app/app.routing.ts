@@ -9,7 +9,7 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 const routes: Routes =[
   {
     path: '',
-    redirectTo: '/waybills',
+    redirectTo: '/welcome',
     pathMatch: 'full',
   }, {
     path: '',
@@ -31,7 +31,7 @@ const routes: Routes =[
     ]
   }, {
     path: '**',
-    redirectTo: '/waybills'
+    redirectTo: '/welcome'
   }
 ];
 

@@ -12,6 +12,7 @@ import * as jQuery from 'jquery';
 
 // services
 import {WaybillService} from '../../services/waybills.service';
+import {ClientscustomersService} from '../../services/clientscustomers.service';
 
 @Component({
   selector: 'app-waybills',
@@ -26,8 +27,11 @@ export class WaybillsComponent implements OnInit {
 
   public waybills$: Observable<WaybillService[]>;
 
+  public loggedInId= localStorage.getItem('userID');
+
   public single_waybill = [];
   public waybills = [];
+  public user_data = [];
   public all = [];
   public today = [];
   public pending = [];
@@ -37,26 +41,29 @@ export class WaybillsComponent implements OnInit {
   public delivered = [];
   public in_transit = [];
 
-  public all_count;
-  public today_count;
-  public pending_count;
-  public pickup_count;
-  public cancelled_count;
-  public at_branch_count;
-  public delivered_count;
-  public in_transit_count;
+  public all_count = 0;
+  public today_count = 0;
+  public pending_count = 0;
+  public pickup_count = 0;
+  public cancelled_count = 0;
+  public at_branch_count = 0;
+  public delivered_count= 0;
+  public in_transit_count = 0;
 
   public active_class = 'all';
-  public open_waybill = false;
   public loading_msg = "";
   public d_status_badge ="";
   public d_status_badge_table ="";
+
+  public open_waybill = false;
+  public transactions_found = false;
 
   trackinStatusForm : FormGroup;
   changeDriverForm : FormGroup;
 
   constructor(
               private _waybillService: WaybillService,
+              private _customerService: ClientscustomersService,
               private spinner: NgxSpinnerService,
               private toastr: ToastrService,
               private fB: FormBuilder,
@@ -68,8 +75,6 @@ export class WaybillsComponent implements OnInit {
     this.spinner.show();
     this.loading_msg = "Loading waybills...";
 
-    // this.dataTable = jQuery(this.table.nativeElement);
-    // this.dataTable.DataTable();
 
     this.dtOption = {
       "paging":   false,
@@ -91,42 +96,7 @@ export class WaybillsComponent implements OnInit {
 
       });
 
-      // change tracking status form Builder
-      this.trackinStatusForm = this.fB.group({
-        delivery_status: ['', Validators.required],
-        payment_status:'',
-        delivery_note: '',
-        modified_by:'',
-        signed_on:'',
-        signed_by:'',
-        driver_id:'',
-        branch:'',
-      });
-
-      this.trackinStatusForm.valueChanges.subscribe(()=>{
-          // console.log(this.trackinStatusForm.value);
-          
-      });
-
-      // change driver form Builder
-      this.changeDriverForm = this.fB.group({
-        driver_id: ['', Validators.required],
-        delivery_status: ['in_transit', Validators.required],
-        payment_status:'',
-        branch:['', Validators.required],
-        delivery_note: '',
-        modified_by:'',
-        signed_on:'',
-        signed_by:'',
-      });
-
-      this.changeDriverForm.valueChanges.subscribe(()=>{
-        console.log(this.changeDriverForm.value);
-      });
-
-      this.trackinStatusForm.valueChanges.subscribe(()=>{
-        console.log(this.trackinStatusForm.value);
-      });
+    
 
   }
 
@@ -164,12 +134,11 @@ export class WaybillsComponent implements OnInit {
 
   // Get all Waybills
   getAllWaybills(){
-    this._waybillService.getAllWaybills().subscribe({
+    this._customerService.getCustomersData(this.loggedInId).subscribe({
       next: data => {
-        this.waybills = data;
-        this.all = data;
+        this.user_data = data;
         this.active_class = "all";
-
+        this.all.length = 0;
         this.today.length = 0;
         this.pending.length = 0;
         this.pickup.length = 0;
@@ -178,45 +147,61 @@ export class WaybillsComponent implements OnInit {
         this.delivered.length = 0;
         this.cancelled.length = 0;
 
-        data.map((value, i) => {
+        console.log(data);
+        
 
-          let waybill_date = moment(value['date_created']).format('YYYY-MM-DD');
+        if(data['transactions']){
 
-          if ( moment(waybill_date).isSame(moment(), 'day') ) {
-            this.today.push(value);
-          }
-          if ( value['payment_status'] === 'pending') {
-            this.pending.push(value);
-          }
-          if ( value['delivery_status'] === 'pickup') {
-            this.pickup.push(value);
-          }
-          if ( value['delivery_status'] === 'at_branch') {
-            this.at_branch.push(value);
-          }
-          if ( value['delivery_status'] === 'in_transit') {
-            this.in_transit.push(value);
-          }
-          if ( value['delivery_status'] === 'delivered') {
-            this.delivered.push(value);
-          }
-          if ( value['delivery_status'] === 'cancelled') {
-            this.cancelled.push(value);
+          this.waybills = data['transactions'];
+
+            data['transactions'].map((value, i) => {
+
+            let waybill_date = moment(value['date_created']).format('YYYY-MM-DD');
+
+            this.all.push(value);
+
+            if ( moment(waybill_date).isSame(moment(), 'day') ) {
+              this.today.push(value);
+            }
+            if ( value['payment_status'] === 'pending') {
+              this.pending.push(value);
+            }
+            if ( value['delivery_status'] === 'pickup') {
+              this.pickup.push(value);
+            }
+            if ( value['delivery_status'] === 'at_branch') {
+              this.at_branch.push(value);
+            }
+            if ( value['delivery_status'] === 'in_transit') {
+              this.in_transit.push(value);
+            }
+            if ( value['delivery_status'] === 'delivered') {
+              this.delivered.push(value);
+            }
+            if ( value['delivery_status'] === 'cancelled') {
+              this.cancelled.push(value);
+            }
+
+            this.all_count = this.all.length;
+            this.pending_count = this.pending.length;
+            this.pickup_count = this.pickup.length;
+            this.at_branch_count = this.at_branch.length;
+            this.in_transit_count = this.in_transit.length;
+            this.delivered_count = this.delivered.length;
+            this.cancelled_count = this.cancelled.length;
+            this.today_count = this.today.length;
+
+            this.statusBadgeClass(value['delivery_status'], value['payment_status'] )
+
+          });
+
+          if(this.waybills.length > 0){
+            this.transactions_found = true;
+          }else{
+            this.transactions_found = false;
           }
 
-          this.all_count = this.all.length;
-          this.pending_count = this.pending.length;
-          this.pickup_count = this.pickup.length;
-          this.at_branch_count = this.at_branch.length;
-          this.in_transit_count = this.in_transit.length;
-          this.delivered_count = this.delivered.length;
-          this.cancelled_count = this.cancelled.length;
-          this.today_count = this.today.length;
-
-          this.statusBadgeClass(value['delivery_status'], value['payment_status'] )
-
-        });
-
+        }
 
         this.spinner.hide();
         this.loading_msg = "";
@@ -316,94 +301,7 @@ export class WaybillsComponent implements OnInit {
       }));
   }
 
-  // Update tracking status
-  updateTrackingStatus(){
-  
-    if(this.trackinStatusForm.invalid){
-      this.toastr.error('Select a tracking status.', '', {
-        positionClass: 'toast-top-center',
-        timeOut: 3000,
-        // closeButton: true,
-        // disableTimeOut: true,
-      });
 
-    }else{
-      this.spinner.show();
-      this.loading_msg = "";
-      let waybill_no = this.single_waybill[0].qoute.qoute_id;
-      let formData = this.trackinStatusForm.value;
-
-      console.log(formData);
-      
-
-      this._waybillService.updateWaybill(waybill_no, formData).subscribe({
-        next : data => {
-          this.toastr.success('Waybill tracking details updated successfully.', 'Tracking updated', {
-            positionClass: 'toast-top-center',
-          });
-          this.getAllWaybills();
-          console.log(this.trackinStatusForm.value);
-          this.spinner.hide();
-          this.loading_msg = "";
-        },error: error => {
-          this.toastr.error('There was a technical problem. [er-uptTRS]', 'Error!', {
-            positionClass: 'toast-top-center',
-            timeOut: 3000,
-          });
-          this.spinner.hide();
-          this.loading_msg = "";
-        }
-      })
-
-
-    }
-    
-
-  }
-
-  // Update driver
-  updateDriver(){
-
-    if(this.changeDriverForm.invalid){
-      this.toastr.error('Fill in the required driver details.', '', {
-        positionClass: 'toast-top-center',
-        timeOut: 3000,
-        // closeButton: true,
-        // disableTimeOut: true,
-      });
-  
-      console.log(this.changeDriverForm.value);
-    }else{
-
-      this.spinner.show();
-      this.loading_msg = "";
-      let waybill_no = this.single_waybill[0].qoute.qoute_id;
-      let formData = this.changeDriverForm.value;
-
-      this._waybillService.updateWaybill(waybill_no, formData).subscribe({
-        next : data => {
-          this.toastr.success('Driver updated and notified.', 'Tracking updated', {
-            positionClass: 'toast-top-center',
-          });
-          this.getAllWaybills();
-          console.log(this.changeDriverForm.value);
-          this.spinner.hide();
-          this.loading_msg = "";
-        },error: error => {
-          this.toastr.error('There was a technical problem. [er-uptDR]', 'Error!', {
-            positionClass: 'toast-top-center',
-            timeOut: 3000,
-          });
-          this.spinner.hide();
-          this.loading_msg = "";
-        }
-      })
-
-    }
-
-    
-    
-  }
 
   // Update tracking status
   clearEFTpay(){

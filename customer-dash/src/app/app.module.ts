@@ -19,19 +19,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { WaybillsComponent } from './pages/waybills/waybills.component';
-import { DriversComponent } from './pages/drivers/drivers.component';
-import { CustomersComponent } from './pages/customers/customers.component';
-import { RatesComponent } from './pages/rates/rates.component';
-import { BranchesComponent } from './pages/branches/branches.component';
+import { MyAccountComponent } from './pages/my-account/my-account.component';
+import { HelpPageComponent } from './pages/help-page/help-page.component';
 import { TrackingComponent } from './pages/tracking/tracking.component';
 import { NewCollectionComponent } from './pages/new-collection/new-collection.component';
-import { ClearPaymentComponent } from './pages/clear-payment/clear-payment.component';
-import { StatisticsComponent } from './pages/statistics/statistics.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 
 // services
 import {WaybillService} from './services/waybills.service';
 import { NewQuoteComponent } from './pages/new-quote/new-quote.component';
+import { AuthGuard } from './routerGuards/auth.guard';
 
 
 @NgModule({
@@ -54,18 +51,14 @@ import { NewQuoteComponent } from './pages/new-quote/new-quote.component';
     AdminLayoutComponent,
     AuthLayoutComponent,
     WaybillsComponent,
-    DriversComponent,
-    CustomersComponent,
-    RatesComponent,
-    BranchesComponent,
+    MyAccountComponent,
     TrackingComponent,
     NewCollectionComponent,
-    ClearPaymentComponent,
-    StatisticsComponent,
     SettingsComponent,
-    NewQuoteComponent
+    NewQuoteComponent,
+    HelpPageComponent
   ],
-  providers: [WaybillService],
+  providers: [WaybillService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

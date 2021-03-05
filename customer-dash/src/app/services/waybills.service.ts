@@ -10,7 +10,7 @@ import { IWaybill } from '../models/waybills';
 }) 
 export class WaybillService { 
 
-  private BaseURL = "https://intellogistics.co.za/app/api/public";
+  private BaseURL = "https://intellogistics.pharrage.co.za/api/public";
 
   private waybills_url: string = this.BaseURL+"/qoutes"; 
   private single_waybill_url: string = this.BaseURL+"/single-qoute/"; 
@@ -24,6 +24,8 @@ export class WaybillService {
   private get_service_provider_url = this.BaseURL+"/service-provider";
   private get_single_user_url = this.BaseURL+"/getuserdata/";
   private track_waybill_url = this.BaseURL+"/track-waybill/";
+
+  public loggedInId= localStorage.getItem('userID');
 
   constructor(private _http: HttpClient) {} 
 
@@ -201,7 +203,7 @@ export class WaybillService {
       params = params.append("status", '00');
       params = params.append( "delivery_status", "pending");
       params = params.append("payment_status", "pending");
-      params = params.append("cust_login_id", "");
+      params = params.append("cust_login_id", this.loggedInId);
       params = params.append("special_note", userDetailsFormData.special_note);
       params = params.append( "modified_by", "");
       params = params.append( "admin_weight", totalDimensions.total_weight);

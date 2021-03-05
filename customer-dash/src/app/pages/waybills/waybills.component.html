@@ -4,7 +4,7 @@ bdColor="rgba(0,0,0,0.9)"
   <p style="font-size: 16px; color: white"> {{loading_msg}} </p>
 </ngx-spinner>
 
-<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center " style="min-height: 400px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+<div class="header pb-7 pt-5 pt-lg-8 d-flex align-items-center " style=" background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
     <!-- Mask -->
     <span class="mask bg-gradient-danger opacity-7"></span>
     <div class="container-fluid">
@@ -12,8 +12,8 @@ bdColor="rgba(0,0,0,0.9)"
 
         <div class="row">
           <div class="col">
-            <h1 class="display-2 text-white">Pickups & Deliveries</h1>
-            <p class="text-white ">Click on the blocks to view and filter waybills.</p>
+            <h1 class="display-2 text-white">Hi, {{user_data.details?.names}}</h1>
+            <p class="text-white ">Here are your transactions, click on the blocks to filter.</p>
             <!-- <a href="#!" class="btn btn-info">Edit profile</a> -->
           </div>
         </div>
@@ -61,7 +61,7 @@ bdColor="rgba(0,0,0,0.9)"
               <div class="card-body">
                 <div class="row">
                   <div class="col">
-                    <h5 class="card-title text-uppercase text-muted mb-0">Must Collect</h5>
+                    <h5 class="card-title text-uppercase text-muted mb-0">Awaiting Collection</h5>
                     <span class="h2 font-weight-bold mb-0">{{pickup_count}}</span>
                   </div>
                   <div class="col-auto">
@@ -186,52 +186,56 @@ bdColor="rgba(0,0,0,0.9)"
 -     PAGE CONTENT  
 --------------------->
   <!-- Dark table -->
-  <div class="container mt--7 animated fadeIn">
+  <div class="container mt--5 animated fadeIn">
     <div class="">
-      <div class="card bg-default shadow">
+      <div class="card bg-secondary shadow">
         <!-- <div class="card-header bg-transparent border-0">
           <h3 class="text-white mb-0">Card tables</h3>
         </div> -->
-        <div class="table-responsive">
+
+        <div class="card-body hidden" [hidden]="transactions_found" >
+          <div class="notice-container">
+            <h2>
+              You haven't delivered anything yet.
+            </h2>
+          </div>
+        </div>
+
+        <div class="table-responsive" [hidden]="!transactions_found" >
           <table  class="table align-items-center table-dark table-flush animated fadeIn waybills-table">
             <thead class="thead-dark">
               <tr>
                 <th scope="col">waybill no</th>
-                <th scope="col">Date</th>
-                <th scope="col">Client Name</th>
+                <th scope="col">Date Created</th>
                 <th scope="col">Service</th>
                 <th scope="col">From</th>
                 <th scope="col">To</th> 
-                <th scope="col">Driver</th>
-                <th scope="col">Status</th>
-                <th scope="col"></th>
+                <th scope="col">Delivery</th>
+                <th scope="col">Payment</th>
+                <th scope="col">Note</th>
               </tr>
             </thead>
             <tbody>
               <tr class="single-waybill" *ngFor="let waybill of waybills; index as i" (click)="getSingleWaybill(waybill.qoute_id)" > 
                 <td>{{ waybill.qoute_id }}</td>
                 <td>{{ waybill.date_created }}</td>
-                <td>{{ waybill.cust_name }} {{ waybill.surname }}</td>
                 <td>{{ waybill.service_type }}</td>
                 <td>{{ waybill.collection_branch }}</td>
                 <td>{{ waybill.destination_branch }}</td>
-                <td>{{ waybill.driver_id }}</td>
                 <td>
                   <span class="badge {{d_status_badge_table}} {{ waybill.delivery_status }}" [ngClass]="d_status_badge_table">
                     {{ waybill.delivery_status }}
                    </span>
                 </td>
-                <td class="text-right">
-                  <div ngbDropdown placement="bottom-right">
-                    <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                    </div>
-                  </div>
+                <td>
+                  <span class="badge {{d_status_badge_table}} {{ waybill.payment_status }}" [ngClass]="d_status_badge_table">
+                    {{ waybill.payment_status }}
+                   </span>
+                </td>
+                <td style="max-width: 10rem;  white-space: initial;"> 
+                  <small>
+                    {{ waybill.delivery_note }}
+                  </small>
                 </td>
               </tr>
               
@@ -251,25 +255,29 @@ bdColor="rgba(0,0,0,0.9)"
 ********************************
 -------------------------------->
 
-<div class="row view_qoute_screen animated fadeIn" *ngFor="let waybill of single_waybill; index as i" [ngClass]="{'active': open_waybill}">
+<div class="row view_qoute_screen animated fadeIn" *ngFor="let waybill of single_waybill; index as i" [hidden]="!formSuccess" [ngClass]="{'active': open_waybill}">
 
   <div class="col-md-8 view_overlay">
 
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-manage-tab" data-toggle="tab" href="#nav-manage" role="tab" aria-controls="nav-manage" aria-selected="true">View</a>
-        <a class="nav-item nav-link" id="nav-edit-tab" data-toggle="tab" href="#nav-edit" role="tab" aria-controls="nav-edit" aria-selected="false">Edit</a>
+        <a class="nav-item nav-link active" id="nav-manage-tab" data-toggle="tab" href="#nav-manage" role="tab" aria-controls="nav-manage" aria-selected="true">Waybill Details</a>
+        <a class="nav-item nav-link" id="nav-edit-tab" data-toggle="tab" href="#nav-edit" role="tab" aria-controls="nav-edit" aria-selected="false">Tracking Details</a>
       </div>
     </nav>
     
     <div class="tab-content" id="nav-tabContent">
 
-     <div class="tab-pane show active" id="nav-edit" role="tabpanel" aria-labelledby="nav-edit-tab">
-         
+     <div class="tab-pane show active" id="nav-manage" role="tabpanel" aria-labelledby="nav-manage-tab">
+         <br/>
       <!-- General Details -->
     <div class="row general-details">
+      <!-- <div class="col">
+        <img src="{{ waybill.service_provider.company_logo }}" width="200" alt="">
+      </div> -->
       <div class="col">
-        <img src="https://kgcf.co.za/wp-content/uploads/2019/06/Slider-Logo-3.png" width="200" alt="">
+        <label>Service</label>
+        <h3 class="serv_type">{{ waybill.qoute.service_type }}</h3>
       </div>
       <div class="col service-type">
         <label>Waybill No</label>
@@ -386,8 +394,6 @@ bdColor="rgba(0,0,0,0.9)"
     <div class="row parcel-details">
   
       <div class="col-md-4 delivery-status">
-        <label>Service Details</label>
-        <h3 class="serv_type">{{ waybill.qoute.service_type }}</h3>
         <h5>Additional Services</h5>
         <ul class="hidden">
           <li class="">
@@ -499,167 +505,141 @@ bdColor="rgba(0,0,0,0.9)"
     </div>
       </div>
 
-      <div>
+      <div class="tab-pane show active" id="nav-edit" role="tabpanel" aria-labelledby="nav-edit-tab">
 
       </div>
+
+
     </div>
 
   </div>
 
 
+    <!-- SIDEBAR -->
     <div class="col-md-4 quote_action_menu">
 
         <button type="button" class="btn btn-danger close_edit" (click)="closeWaybillView()">Close</button>
 
-        <h4 class="package_status"></h4>
 
         <div class="action_error">
 
        </div>
 
-       <div class="waybill-actions ">
-           <div class="action_menu_container change_tracking_action admin_action">
-             <div class="tracking_actions">
-               <h6 class="navbar-heading text-muted">
-                 TRACKING STATUS 
-                 <span class="badge {{d_status_badge}}" [ngClass]="d_status_badge">
-                  {{ waybill.qoute.delivery_status }}
-                 </span>
-                </h6>
+        <!-- <div class="row">
+          <div class="col-md-6">
+            <h6 class="navbar-heading text-muted">PAYMENT STATUS</h6>
+            <span class="badge {{d_status_badge_table}} {{ waybill.qoute.payment_status }}" [ngClass]="d_status_badge_table">{{ waybill.qoute.payment_status }}</span>
+          
+          </div>
+          <div class="col-md-6">
+            <h6 class="navbar-heading text-muted">DELIVERY STATUS</h6>
+            <span class="badge {{d_status_badge_table}} {{ waybill.qoute.delivery_status }}" [ngClass]="d_status_badge_table">{{ waybill.qoute.delivery_status }}</span>
+          </div>
+        </div> -->
+        <hr class="my-3">
+        <div class="card card-profile">
+
+          <div class="row justify-content-center">
+  
+              <div class="mb-4 mt-20">
+                <a href="#">
+                  <img width="200" src="{{waybill.service_provider?.company_logo}}" alt="">
+                </a>
+              </div>
+
+          </div>
+          <div class="card-body pt-0">
+
+            <div class="text-center">
+              <div class="h5 font-weight-300">
+                <i class="ni location_pin mr-2"></i>Your parcel is handled by
+              </div>
+              <h5 class="h3">
+                {{waybill.service_provider?.company_name}}
+              </h5>
               
-                <form [formGroup]="trackinStatusForm">
-                  <ul>
-                    <li>
-                      <!-- <span class="action_link assing_driver"><i class="ni ni-ambulance text-primary"></i> Assign a driver</span> -->
-                      <ul class="action_dropdown change_tracking">
-                        
-                        <li>
-                          <select class="form-control list_option tracking_status_list_option" formControlName="delivery_status">
-                            <option value>Change Status...</option>
-                            <option value="pending">Unpaid</option>
-                            <option value="pickup">Waiting for pickup</option>
-                            <option value="at_branch">At Branch</option>
-                            <option value="in_transit">in transit</option>
-                            <option value="delivered">Delivered</option>
-                            <option value="other">Other</option>
-                          </select>
-                        </li>
-                        <li>
-                          <input type="text" class="delivery_note form-control" id="delivery_note" name="delivery_note" formControlName="delivery_note" value="delivery_note" placeholder="Write delivery note..."/>
-                        </li>
-                        <li class="signature_details">
-
-                          <div class="row">
-                            <div class="col">
-                              <small>Signed by</small><br/>
-                              <input type="text" class="signed_by_input form-control form-control-sm" id="signed_by" name="signed_by" formControlName="signed_by" value="{{trackinStatusForm.value.signed_by}}" placeholder=""/>
-                            </div>
-                            <div class="col">
-                              <small>On</small><br/>
-                              <input type="date" class="signed_on_input form-control form-control-sm" id="signed_on" name="signed_on" fromControlName="signed_on" value="" placeholder=""/>
-                            </div>
-                          </div>
-                          
-                        </li>
-
-
-                        <li> <button (click)="updateTrackingStatus()" type="button" id="" data-action="update_status" class="btn btn-dark btn-sm qoute_action quote-action-btn update_status">Update Status</button></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </form>
-             </div>
-           </div>
-
-
-
-            <div class="action_menu_container select_driver_action admin_action">
-              <div class="driver_actions">
-                <h6 class="navbar-heading text-muted">SELECT DRIVER</h6>
-
-                <form [formGroup]="changeDriverForm">
-                  <ul>
-                    <li>
-                      <!-- <span class="action_link assing_driver"><i class="ni ni-ambulance text-primary"></i> Assign a driver</span> -->
-                      <ul class="action_dropdown assing_driver">
-                        <li [ngClass]="{'hidden': !waybill.qoute.driver_id}">
-                          <h4 class="driver_name" style="display: inline-block; margin-bottom:1.5rem;"></h4>
-                        </li>
-                        <li>
-                          <select class="form-control list_option drivers_list_option" formControlName="driver_id">
-                            <option value>select driver...</option>
-                            <option value="ephraim">Ephraim</option>
-                            <option value="bmw">BMW Nika</option>
-                            <option value="tazz">Tazz Nika</option>
-                          </select>
-                        </li>
-
-                        <li>
-                          <select class="form-control list_option deliver_list_option" formControlName="branch">
-                            <option value>Where to deliver?</option>
-                            <option value="to_client">Straight to Client.</option>
-                            <option value="witbank">Witbank Branch</option>
-                            <option value="kempton">Kempton Park Branch.</option>
-                            <option value="rusternburg">Rusternburg Branch.</option>
-                          </select>
-                        </li>
-
-                        <li> <button (click)="updateDriver()" type="button" id="" data-action="schedule" class="btn btn-dark btn-sm qoute_action schedule_pickup">Schedule Driver</button></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </form>
+              <div class="h5 mt-4">
+                <i class="ni business_briefcase-24 mr-2"></i> <a href="tel:{{waybill.service_provider?.contact_no}}"> {{waybill.service_provider?.contact_no}} </a>
+              </div>
+              <div>
+                <i class="ni education_hat mr-2"></i><a href="mailto:{{waybill.service_provider?.email_address}}"> {{waybill.service_provider?.email_address}} </a>
               </div>
             </div>
 
-
-            <div class="action_menu_container">
-              <div class="payment_actions">
-                <h6 class="navbar-heading text-muted">PAYMENTS</h6>
-                <ul>
-                     <li class="clear_pay_action">
-                      <button (click)="clearEFTpay()" data-action="clear_as_paid" class="btn qoute_action action_link clear_eft_pay"><i class="ni ni-time-alarm text-primary"></i> Clear EFT Payment</button>
-                    </li>
-                    <li>
-                     <button (click)="clearEFTpay()" data-action="set_unpaid" class="btn qoute_action action_link clear_eft_pay text-danger"><i class="ni ni-time-alarm text-danger"></i> Mark as unpaid</button>
-                   </li>
-                </ul>
-                <hr class="my-3">
-              </div>
           </div>
-
-
-            <div class="action_menu_container email_action">
-              <div class="email_actions">
-                  <h6 class="navbar-heading text-muted">EMAILS</h6>
-                  <ul>
-                    <li>
-                      <button (click)="emailWaybill()" class="btn action_link email_quote email_action_btn"> <i class="ni ni-email-83 text-primary"></i> Email this quote</button>
-                    </li>
-
-                     <li>
-                      <button (click)="emailWaybillPayReminder()" class="btn action_link pay_reminder email_action_btn"><i class="ni ni-time-alarm text-primary"></i> Send payment reminder</button>
-                    </li>
-
-                </ul>
-                <hr class="my-3">
-              </div>
-          </div>
-
-          <div class="action_menu_container other_action">
-            <h6 class="navbar-heading text-muted">OTHER</h6>
-            <ul>
-              <!-- <li>
-                  <button id="" data-action="save" class="action_link save_n_confirm qoute_action"><i class="ni ni-check-bold text-primary"></i> Save as Delivered</button>
-                </li> -->
-              <li class="">
-                <button (click)="cancelWayblill()" id="" data-action="cancel" class="btn action_link cancel_trans qoute_action text-danger"> <i style="font-size: 20px;" class="ni ni-fat-remove text-danger"></i> Cancel this transaction</button>
-              </li>
-
-          </ul>
         </div>
 
-    </div> <!-- CLOSE QUOTE ACTIONS -->
+        <div class="quote-table  animated fadeIn" >
+
+          <table class="table quote-price-table">
+            <tbody>
+              <tr>
+                <td>Delivery Status</td>
+                <td class="min_cost">
+                  <span class="badge {{d_status_badge_table}} {{ waybill.qoute.delivery_status }}" [ngClass]="d_status_badge_table">{{ waybill.qoute.delivery_status }}</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Payment Status</td>
+                <td class="min_cost">
+                  <span class="badge {{d_status_badge_table}} {{ waybill.qoute.payment_status }}" [ngClass]="d_status_badge_table">{{ waybill.qoute.payment_status }}</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Total Weight</td>
+                <td class="min_cost"><span class="">R{{waybill.qoute.min_cost}}</span></td>
+              </tr>
+              <tr>
+                <td>Volumetric Weight</td>
+                <td class="min_cost"><span class="">R{{waybill.qoute.min_cost}}</span></td>
+              </tr>
+              <tr>
+                <td>Minimum Cost</td>
+                <td class="min_cost"><span class="">R{{waybill.qoute.min_cost}}</span></td>
+              </tr>
+              <tr>
+                <td>Per KG Charge</td>
+                <td class="per_kg_charge"><span class="">R{{waybill.qoute.per_kg_charge}}</span></td>
+              </tr>
+              <tr>
+                <td>Fuel Levy</td>
+                <td class="fuel_cost"><span class="user_oustanding ">R{{waybill.qoute.fuel_cost}}</span></td>
+              </tr>
+              <tr>
+                <td><h4>Sub total</h4></td>
+                <td class="sub_total"><span class="">R{{waybill.qoute.sub_total}}</span></td>
+              </tr>
+              <tr>
+                <td>15% VAT</td>
+                <td class="vat_amt"><span class="user_oustandingr">R{{waybill.qoute.vat_amt}}</span></td>
+              </tr>
+              <tr>
+                <td><h4>Grand Total</h4></td>
+                <td class="grand_total"><span class=""> R{{waybill.qoute.grand_total}} </span></td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <div class="waybill-actions " [ngClass]="{'hidden': waybill.qoute.payment_status !== 'pending'}">
+          
+          <div class="action_menu_container">
+            <br/>
+            <h6 class="navbar-heading text-muted">PAYMENT </h6>
+              <div class="payment_actions" >
+                <ul>
+                    <li class="clear_pay_action">
+                      <button (click)="clearEFTpay()" data-action="clear_as_paid" class="btn qoute_action action_link clear_eft_pay"><i class="ni ni-time-alarm text-primary"></i> Pay Now</button>
+                    </li>
+                    <li class="" [ngClass]="{'hidden': waybill.qoute.delivery_status !== 'pending'}" [ngClass]="{'hidden': waybill.qoute.payment_status !== 'pending'}">
+                      <button (click)="cancelWayblill()" id="" data-action="cancel" class="btn action_link cancel_trans qoute_action text-danger"> <i style="font-size: 20px;" class="ni ni-fat-remove text-danger"></i> Cancel transaction</button>
+                    </li>
+                </ul>
+                
+              </div>
+          </div>
+      </div> <!-- CLOSE QUOTE ACTIONS -->
 
 
 

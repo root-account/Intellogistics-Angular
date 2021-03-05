@@ -6,7 +6,7 @@ bdColor="rgba(0,0,0,0.9)"
 
 <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 400px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
     <!-- Mask -->
-    <span class="mask bg-gradient-danger opacity-8"></span>
+    <span class="mask bg-gradient-danger opacity-6"></span>
     <!-- Header container -->
     <div class="container-fluid d-flex align-items-center animated fadeIn">
       <div class="row">
@@ -30,34 +30,44 @@ bdColor="rgba(0,0,0,0.9)"
           <div class="card-body">
             
               <div class="row">
-                <!-- FROM -->
-                  <div class="col-lg-6 address-bar from">
-                    <h2 class="text-muted mb-4">FROM: <span class="badge badge-primary"> {{fromRegion}} </span> </h2>
-                      <div class="form-group">
-                        <!-- <label class="form-control-label" for="input-email">Address</label> -->
-                         <input type="text" class="form-control form-control-alternative" placeholder="Enter a location & select from the dropdown"
-                          ngx-google-places-autocomplete [options]= 'options'  (onAddressChange)="fromAddressChange($event)"
-                          formControlName="pickup_address"
-                         />
-                        <small class="text-danger" *ngIf> 
-                          <strong>
+                 <!-- FROM -->
+                 <div class="col-lg-6 address-bar from">
+                  <h2 class="mb-4">FROM: <span class="badge badge-primary"> {{fromRegion}} </span> </h2>
 
-                          </strong>
-                        </small>
+                    <div  class="input-group input-group-alternative form-control-alternative">
+                      <div  class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="ni ni-pin-3"></i>
+                        </span>
                       </div>
-                  </div>
+                      <input type="text" class="form-control " placeholder="Enter a location & select from the dropdown"
+                        ngx-google-places-autocomplete [options]= 'options'  (onAddressChange)="fromAddressChange($event)"
+                        formControlName="pickup_address"
+                       />
+                    </div>
 
-                  <!-- TO -->
-                  <div class="col-lg-6 address-bar to">
-                    <h2 class="text-muted mb-4">TO: <span class="badge badge-primary"> {{toRegion}} </span> </h2>
-                      <div class="form-group">
-                        <!-- <label class="form-control-label" for="input-email">Address</label> -->
-                        <input type="text" class="form-control form-control-alternative" placeholder="Enter a location & select from the dropdown"
-                          ngx-google-places-autocomplete [options]= 'options'  (onAddressChange)="toAddressChange($event)"
-                          formControlName="destination_address"
-                         />
+                    <small class="text-danger" *ngIf> 
+                      <strong>
+
+                      </strong>
+                    </small>
+                </div>
+
+                <!-- TO -->
+                <div class="col-lg-6 address-bar to">
+                  <h2 class="mb-4">TO: <span class="badge badge-success"> {{toRegion}} </span> </h2>
+                    <div  class="input-group input-group-alternative form-control-alternative">
+                      <div  class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="ni ni-pin-3 text-orange"></i>
+                        </span>
                       </div>
-                  </div>
+                      <input type="text" class="form-control" placeholder="Enter a location & select from the dropdown"
+                        ngx-google-places-autocomplete [options]= 'options'  (onAddressChange)="toAddressChange($event)"
+                        formControlName="destination_address"
+                       />
+                    </div>
+                </div>
 
               </div>
 
@@ -84,7 +94,7 @@ bdColor="rgba(0,0,0,0.9)"
           </div>
           <div class="card-body">
               <div formArrayName="packages">
-              <div class="row" *ngFor="let package of packagesForms.controls; index as i" [formGroupName]="i">
+              <div class="row new-parcel-container" *ngFor="let package of packagesForms.controls; index as i" [formGroupName]="i">
                 <div class="col-md-2" >
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Weight</label>
@@ -117,7 +127,7 @@ bdColor="rgba(0,0,0,0.9)"
                 </div>
                 <div class="col-md-1">
                   <div class="col">
-                    <button class="btn btn-danger" (click)="deletePack(i)">-</button>
+                    <button class="btn btn-danger remove-parcel" (click)="deletePack(i)">-</button>
                   </div>
                 </div>
               </div>
@@ -316,7 +326,7 @@ bdColor="rgba(0,0,0,0.9)"
 
               <div class="row">
                   <!-- SENDER DETAILS -->
-                  <div class="col-md-6 user-details sender-details"> 
+                  <div class="col-md-6 user-details address-bar sender-details"> 
                      <h2 class="text-muted mb-4">FROM: <span class="badge badge-primary"> {{fromRegion}} </span> </h2>
                       <div class="row">
                         <div class="col-lg-6">
