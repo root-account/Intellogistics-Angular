@@ -27,6 +27,8 @@ export class NewQuoteComponent implements OnInit {
     'North West',
     'Western Cape'
   ];
+  public loggedInId= "Technologies_1449";
+  
   public googleFromAddress=" "; 
   public googleToAddress=" "; 
   public fromRegion = "";

@@ -32,6 +32,50 @@
     <div class="card bg-secondary shadow">
 
       <div class="card-body">
+
+        <div class="row">
+          <div class="col-md-12">
+            <small>TOTAL OUTSTANDING</small>
+            <h1>R{{total_outstanding}}</h1>
+          </div>
+        </div>
+
+        <hr/>
+
+
+        <div class="service-provider row" *ngFor="let bill of billing_data; index as i" >
+
+          <div class="col-md-2 item">
+            <img width="120" src="{{bill.company_data?.company_logo}}" alt="">
+          </div>
+
+          <div class="col-md-2 item">
+            <small>Total Waybills</small>
+            <h2>{{bill.waybills.length}}</h2>
+          </div>
+          <div class="col-md-2 item">
+            <small>Total Fees</small>
+            <h2>R{{bill.total_transactions_amt}}</h2>
+          </div>
+          <div class="col-md-2 item">
+            <small>Total Payments</small>
+            <h2>R{{bill.total_payments}}</h2>
+          </div>
+          <div class="col-md-2 item">
+            <small>Outstanding Payments</small>
+            <h2>R{{bill.outstanding_payments}}</h2>
+          </div>
+          <div class="col-md-2 item last">
+            <br/>
+            <button type="button" class="btn btn-sm btn-outline-primary">Pay Account</button>
+          </div>
+
+        </div>
+  
+        
+
+
+        <hr/>
        
 
       </div>

@@ -27,7 +27,7 @@ export class WaybillsComponent implements OnInit {
 
   public waybills$: Observable<WaybillService[]>;
 
-  public loggedInId= "Technologies_1449";
+  public loggedInId= localStorage.getItem('userID');
 
   public single_waybill = [];
   public waybills = [];

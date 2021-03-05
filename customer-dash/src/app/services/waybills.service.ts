@@ -25,7 +25,7 @@ export class WaybillService {
   private get_single_user_url = this.BaseURL+"/getuserdata/";
   private track_waybill_url = this.BaseURL+"/track-waybill/";
 
-  public loggedInId= "Ephraim_5990";
+  public loggedInId= localStorage.getItem('userID');
 
   constructor(private _http: HttpClient) {} 
 

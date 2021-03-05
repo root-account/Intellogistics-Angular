@@ -4,6 +4,7 @@
 
 body {
     background-color: #eceef7 !important;
+    // background-image: url('assets/img/theme/map-bg.jpg');
 }
 
 body .bg-gradient-danger {
@@ -17,6 +18,16 @@ body .bg-gradient-danger {
 
 .navbar-horizontal .navbar-brand img {
     height: 55px !important;
+}
+
+.navbar-vertical .navbar-nav .nav-link > i {
+    min-width: auto !important; 
+    font-size: 0.9375rem;
+    line-height: normal !important; 
+    border: 1px solid;
+    padding: 0.5rem;
+    border-radius: 50%;
+    margin-right: 1rem;
 }
 
 .address-bar{
@@ -413,6 +424,7 @@ span.pending {
     margin-right: 1rem;
 }
 
+
 .form-check-input {
     width: 15px;
     height: 15px;
@@ -540,4 +552,20 @@ $primary-color: #079ad9;
       }
     }
   }
+}
+
+
+// ACCOUNT BILLING
+.service-provider {
+    background-color: #f9f5f5;
+    margin-bottom: 0.8rem;
+    padding: 1rem;
+
+    .item {
+        border-right: 1px dotted #d8cfcf;
+    }
+
+    .item.last {
+        border-right: 0px !important;
+    }
 }

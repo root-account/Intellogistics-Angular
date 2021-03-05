@@ -28,6 +28,7 @@ import { SettingsComponent } from './pages/settings/settings.component';
 // services
 import {WaybillService} from './services/waybills.service';
 import { NewQuoteComponent } from './pages/new-quote/new-quote.component';
+import { AuthGuard } from './routerGuards/auth.guard';
 
 
 @NgModule({
@@ -57,7 +58,7 @@ import { NewQuoteComponent } from './pages/new-quote/new-quote.component';
     NewQuoteComponent,
     HelpPageComponent
   ],
-  providers: [WaybillService],
+  providers: [WaybillService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

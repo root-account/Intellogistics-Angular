@@ -12,17 +12,18 @@ import { MyAccountComponent } from '../../pages/my-account/my-account.component'
 import { WaybillsComponent } from '../../pages/waybills/waybills.component';
 import { SettingsComponent } from '../../pages/settings/settings.component';
 import { HelpPageComponent } from '../../pages/help-page/help-page.component';
+import { AuthGuard } from 'src/app/routerGuards/auth.guard';
 
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard',      component: DashboardComponent },
+    { path: 'dashboard',      component: DashboardComponent, canActivate : [AuthGuard] },
     { path: 'new-collection',  component: NewCollectionComponent },
     { path: 'new-quote',  component: NewQuoteComponent },
     { path: 'track',  component: TrackingComponent },
-    { path: 'waybills',  component: WaybillsComponent },
-    { path: 'my-account',  component: MyAccountComponent },
-    { path: 'user-profile',   component: UserProfileComponent },
-    { path: 'settings',  component: SettingsComponent },
+    { path: 'waybills',  component: WaybillsComponent, canActivate : [AuthGuard] },
+    { path: 'my-account',  component: MyAccountComponent, canActivate : [AuthGuard] },
+    { path: 'user-profile',   component: UserProfileComponent, canActivate : [AuthGuard] },
+    { path: 'settings',  component: SettingsComponent , canActivate : [AuthGuard]},
     { path: 'help',  component: HelpPageComponent },
    
 

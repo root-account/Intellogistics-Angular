@@ -28,7 +28,7 @@ export class NewCollectionComponent implements OnInit {
     'Western Cape'
   ];
   public selectedProvider;
-  public loggedInId= "Technologies_1449";
+  public loggedInId= localStorage.getItem('userID');
 
   public user_data = {};
   public service_provider_data = {};
@@ -277,6 +277,8 @@ export class NewCollectionComponent implements OnInit {
       this.user_data = data;
 
       console.log(this.user_data);
+      this.spinner.hide();
+          this.loading_msg = ""; 
       
     
       if( this.user_data['details'] !== null ){
@@ -294,28 +296,24 @@ export class NewCollectionComponent implements OnInit {
           this.userDetailsFormGroup.controls['email_addr'].setValue(this.user_data['details'].user_email);
           this.userDetailsFormGroup.controls['cellphone'].setValue(this.user_data['details'].phone_no);
           
-          this.spinner.hide();
-          this.loading_msg = ""; 
+          
         }else{
           this.toastr.error('You are not subscribed to any couriers...', '', {
             positionClass: 'toast-top-center',
             closeButton: true,
-            disableTimeOut: true,
+            // disableTimeOut: true,
           });
   
-          this.spinner.show();
-          this.loading_msg = "No user found with the logged in ID.";
+
         }
 
       }else{
-        this.toastr.error('No user found with the logged in ID.', '', {
+        this.toastr.error('You are not logged in.', '', {
           positionClass: 'toast-top-center',
           closeButton: true,
-          disableTimeOut: true,
+          // disableTimeOut: true,
         });
 
-        this.spinner.show();
-        this.loading_msg = "No user found with the logged in ID.";
       }
      
     },

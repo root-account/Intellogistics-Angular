@@ -23,13 +23,36 @@ export class SidebarComponent implements OnInit {
 
   public menuItems: any[];
   public isCollapsed = true;
+  public isLoggedIn : boolean = false;
 
   constructor(private router: Router) { }
 
   ngOnInit() {
+
     this.menuItems = ROUTES.filter(menuItem => menuItem);
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
    });
+
+
+  //  Check if logged in
+  if(localStorage.getItem('userToken') != null){
+    this.isLoggedIn = true;
+  }else{
+    this.isLoggedIn = false;
   }
+
+  }
+
+  logout(){
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userID');
+
+    this.router.navigate(['/login']);
+  }
+
+
+
+
+
 }
