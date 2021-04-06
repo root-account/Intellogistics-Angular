@@ -9,7 +9,7 @@ import { Customers } from '../models/customers';
 export class ClientscustomersService {
 
   
-  private BaseURL = "https://intellogistics.co.za/app/api/public";
+  private BaseURL = "https://intellogistics.pharrage.co.za/api/public";
 
   private customers_url: string = this.BaseURL+"/get_all_users"; 
   private single_customer_url: string = this.BaseURL+"/single-driver/"; 

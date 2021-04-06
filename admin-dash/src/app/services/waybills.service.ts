@@ -10,7 +10,7 @@ import { IWaybill } from '../models/waybills';
 }) 
 export class WaybillService { 
 
-  private BaseURL = "https://intellogistics.co.za/app/api/public";
+  private BaseURL = "https://intellogistics.pharrage.co.za/api/public";
 
   private waybills_url: string = this.BaseURL+"/qoutes"; 
   private single_waybill_url: string = this.BaseURL+"/single-qoute/"; 
