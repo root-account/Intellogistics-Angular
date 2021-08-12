@@ -9,7 +9,7 @@ import { Drivers } from '../models/drivers';
 })
 export class DriversService {
 
-  private BaseURL = "https://intellogistics.pharrage.co.za/api/public";
+  private BaseURL = "http://localhost:81/intellogistics/intellogistics-Api/php-api/public";
 
   private drivers_url: string = this.BaseURL+"/get_drivers"; 
   private single_driver_url: string = this.BaseURL+"/single-driver/"; 

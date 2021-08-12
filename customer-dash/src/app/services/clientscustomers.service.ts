@@ -9,7 +9,7 @@ import { Customers } from '../models/customers';
 export class ClientscustomersService {
 
   
-  private BaseURL = "https://intellogistics.pharrage.co.za/api/public";
+  private BaseURL = "http://localhost:81/intellogistics/intellogistics-Api/php-api/public";
 
   private get_customer_url: string = this.BaseURL+"/getuserdata"; 
   private get_customer_bill_url: string = this.BaseURL+"/get-user-billing"; 
