@@ -20,7 +20,7 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { WaybillsComponent } from './pages/waybills/waybills.component';
 import { MyAccountComponent } from './pages/my-account/my-account.component';
-import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+// import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { HelpPageComponent } from './pages/help-page/help-page.component';
 import { TrackingComponent } from './pages/tracking/tracking.component';
 import { NewCollectionComponent } from './pages/new-collection/new-collection.component';
@@ -58,7 +58,7 @@ import { AuthGuard } from './routerGuards/auth.guard';
     SettingsComponent,
     NewQuoteComponent,
     HelpPageComponent,
-    UserProfileComponent
+    // UserProfileComponent
   ],
   providers: [WaybillService, AuthGuard],
   bootstrap: [AppComponent]
