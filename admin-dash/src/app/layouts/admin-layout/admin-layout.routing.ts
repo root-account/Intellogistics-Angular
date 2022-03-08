@@ -38,5 +38,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'branches',  component: BranchesComponent },
     { path: 'statistics',  component: StatisticsComponent },
     { path: 'settings',  component: SettingsComponent },
-    { path: 'user-profile',   component: UserProfileComponent },
+    { path: 'profile',   component: UserProfileComponent },
 ];
