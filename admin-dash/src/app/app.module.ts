@@ -28,7 +28,7 @@ import { NewCollectionComponent } from './pages/new-collection/new-collection.co
 import { ClearPaymentComponent } from './pages/clear-payment/clear-payment.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+// import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 // services
 import {WaybillService} from './services/waybills.service';
@@ -65,7 +65,7 @@ import { NewQuoteComponent } from './pages/new-quote/new-quote.component';
     StatisticsComponent,
     SettingsComponent,
     NewQuoteComponent,
-    UserProfileComponent
+    // UserProfileComponent
   ],
   providers: [WaybillService],
   bootstrap: [AppComponent]
