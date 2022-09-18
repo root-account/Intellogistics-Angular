@@ -39,8 +39,13 @@ bdColor="rgba(0,0,0,0.9)"
                             <i class="ni ni-pin-3"></i>
                           </span>
                         </div>
-                        <input type="text" class="form-control " placeholder="Enter a location & select from the dropdown"
+                        <!-- Google input -->
+                        <!-- <input type="text" class="form-control " placeholder="Enter a location & select from the dropdown"
                           ngx-google-places-autocomplete [options]= 'options'  (onAddressChange)="fromAddressChange($event)"
+                          formControlName="pickup_address"
+                         /> -->
+                         <!-- Normal Input -->
+                         <input type="text" class="form-control " placeholder="Enter a location & select from the dropdown"
                           formControlName="pickup_address"
                          />
                       </div>
@@ -61,8 +66,13 @@ bdColor="rgba(0,0,0,0.9)"
                             <i class="ni ni-pin-3 text-orange"></i>
                           </span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Enter a location & select from the dropdown"
+                        <!-- Google Input -->
+                        <!-- <input type="text" class="form-control" placeholder="Enter a location & select from the dropdown"
                           ngx-google-places-autocomplete [options]= 'options'  (onAddressChange)="toAddressChange($event)"
+                          formControlName="destination_address"
+                         /> -->
+                         <!-- Normal Input -->
+                         <input type="text" class="form-control" placeholder="Enter a location & select from the dropdown"
                           formControlName="destination_address"
                          />
                       </div>

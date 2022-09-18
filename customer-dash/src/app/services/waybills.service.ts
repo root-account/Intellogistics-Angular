@@ -110,6 +110,9 @@ export class WaybillService {
       headers.append('Authorization', '');
           
       let services_data = this._http.get<any[]>(this.get_all_services_url, {headers, params} );
+
+      console.log(formData);
+      
   
       return services_data;
     }
@@ -127,6 +130,11 @@ export class WaybillService {
       headers.append('Authorization', '');
           
       let services_data = this._http.get<any[]>(this.get_provider_services_url, {headers, params} );
+
+      console.log(formData.collection_branch);
+      console.log(formData.destination_branch);
+
+      // console.log(formData.destination_branch);
   
       return services_data;
     }
@@ -213,7 +221,10 @@ export class WaybillService {
       params = params.append("packages", formData.packages);
 
 
-      console.log(formData.packages);
+      console.log(formData);
+      console.log(selected_courier);
+      console.log(userDetailsFormData);
+      console.log(totalDimensions);
       
 
       headers.append('Content-Type', 'application/json');

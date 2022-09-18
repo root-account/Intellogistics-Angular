@@ -31,8 +31,8 @@ export class NewQuoteComponent implements OnInit {
   
   public googleFromAddress=" "; 
   public googleToAddress=" "; 
-  public fromRegion = "";
-  public toRegion = "";
+  public fromRegion = " ";
+  public toRegion = " ";
   public all_quotes = [];
   public all_services = [];
   public selected_courier = [];
@@ -75,10 +75,12 @@ export class NewQuoteComponent implements OnInit {
     this.selected_courier.length = 0;
 
     this.collectFormGroup = this.fB.group({
+      // destination_address: [this.googleToAddress,[Validators.required]],
+      // pickup_address: [this.googleFromAddress,[Validators.required]],
       destination_address: [this.googleToAddress,[Validators.required]],
       pickup_address: [this.googleFromAddress,[Validators.required]],
-      collection_branch: this.fromRegion,
-      destination_branch:this.toRegion,
+      collection_branch:[this.fromRegion,[Validators.required]] ,
+      destination_branch:[this.toRegion,[Validators.required]],
       pickup_postal_code:'',
       service_type: ['',[Validators.required]],
       modified_by: '',
@@ -101,7 +103,13 @@ export class NewQuoteComponent implements OnInit {
       accept_terms:[false,[Validators.requiredTrue]],
     });
 
-  
+    
+    console.log(this.googleFromAddress);
+    console.log(this.googleToAddress);
+
+    console.log(this.fromRegion);
+    console.log(this.toRegion);
+
 
     // On form change collectFormGroup
     this.collectFormGroup.valueChanges.subscribe( ()=>{
@@ -135,8 +143,21 @@ export class NewQuoteComponent implements OnInit {
           if (this.collectFormGroup.value.service_type !== "") {
             this.get_all_calculated_quotes();
           }
-      
-      
+          
+
+          this.fromAddressChange(this.collectFormGroup.value.pickup_address);
+          this.toAddressChange(this.collectFormGroup.value.destination_address);
+
+          this.googleFromAddress = this.collectFormGroup.value.pickup_address; 
+          this.googleToAddress = this.collectFormGroup.value.destination_address; 
+
+          this.fromRegion = this.collectFormGroup.value.pickup_address; 
+          this.toRegion = this.collectFormGroup.value.destination_address; 
+
+          console.log(this.fromRegion);
+          console.log(this.toRegion);
+          
+          
     }); //end form change
 
     // On form change collectFormGroup
@@ -211,22 +232,25 @@ export class NewQuoteComponent implements OnInit {
 
   // Google from address change
   public fromAddressChange(address: any) { 
-    this.collectFormGroup.controls['service_type'].setValue("");
+    // this.collectFormGroup.controls['service_type'].setValue("");
     //setting address from API to local variable 
-    this.googleFromAddress = address.formatted_address 
+    // this.googleFromAddress = address.formatted_address 
+ 
+    // Google from address
+    // address.address_components.map((value, i) => {
+    //   this.provinceList.map((province, j) => {        
+    //     if (value.long_name == province) {
+    //       this.fromRegion = value.long_name;
+    //     }
+    //   });
 
-    address.address_components.map((value, i) => {
-      this.provinceList.map((province, j) => {        
-        if (value.long_name == province) {
-          this.fromRegion = value.long_name;
-        }
-      });
 
+    //   this.collectFormGroup.controls['pickup_address'].setValue(this.googleFromAddress);
+    //   this.collectFormGroup.controls['collection_branch'].setValue(this.fromRegion);
 
-      this.collectFormGroup.controls['pickup_address'].setValue(this.googleFromAddress);
-      this.collectFormGroup.controls['collection_branch'].setValue(this.fromRegion);
-      this.collectFormGroup.controls['service_type'].setValue("");
-    }); 
+    //   this.collectFormGroup.controls['service_type'].setValue("");
+    // }); 
+
     
     this.selected_courier.length = 0;
     this.selectedProvider = "";
@@ -236,20 +260,23 @@ export class NewQuoteComponent implements OnInit {
   
   // Google to address
   public toAddressChange(address: any) { 
-    this.collectFormGroup.controls['service_type'].setValue("");
-    //setting address from API to local variable 
-    this.googleToAddress=address.formatted_address 
+    // this.collectFormGroup.controls['service_type'].setValue("");
+    
+    // //setting address from API to local variable 
+    // this.googleToAddress = address.formatted_address 
 
-    address.address_components.map((value, i) => {
-      this.provinceList.map((province, j) => {        
-        if (value.long_name == province) {
-          this.toRegion = value.long_name;
-        }
-      });
+    // address.address_components.map((value, i) => {
+    //   this.provinceList.map((province, j) => {        
+    //     if (value.long_name == province) {
+    //       this.toRegion = value.long_name;
+    //     }
+    //   });
 
-      this.collectFormGroup.controls['destination_address'].setValue(this.googleToAddress);
-      this.collectFormGroup.controls['destination_branch'].setValue(this.toRegion);
-    }); 
+    //   this.collectFormGroup.controls['destination_address'].setValue(this.googleToAddress);
+    //   this.collectFormGroup.controls['destination_branch'].setValue(this.toRegion);
+      
+    // }); 
+
     this.selected_courier.length = 0;
     this.selectedProvider = "";
     this.all_quotes.length = 0;
@@ -354,7 +381,10 @@ export class NewQuoteComponent implements OnInit {
             this.all_services.length = 0;
             this.all_services = data;
             this.service_desc = "";
-              
+            
+            console.log(this.all_services);
+            
+
           },
           error: error => {
             this.spinner.hide();
