@@ -262,7 +262,7 @@ bdColor="rgba(0,0,0,0.9)"
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-item nav-link active" id="nav-manage-tab" data-toggle="tab" href="#nav-manage" role="tab" aria-controls="nav-manage" aria-selected="true">Waybill Details</a>
-        <a class="nav-item nav-link" id="nav-edit-tab" data-toggle="tab" href="#nav-edit" role="tab" aria-controls="nav-edit" aria-selected="false">Tracking Details</a>
+        <!-- <a class="nav-item nav-link" id="nav-edit-tab" data-toggle="tab" href="#nav-edit" role="tab" aria-controls="nav-edit" aria-selected="false">Tracking Details</a> -->
       </div>
     </nav>
     
@@ -427,10 +427,10 @@ bdColor="rgba(0,0,0,0.9)"
           <tbody>
             <tr *ngFor="let package of waybill.package; index as i"> 
               <td> {{ package.package_desc }} </td>
-              <td>{{ package.weight }}</td>
-              <td>{{ package.height }} </td>
-              <td>{{ package.length }} </td>
-              <td>{{ package.width }} </td>
+              <td>{{ package.weight }}kg</td>
+              <td>{{ package.height }}cm </td>
+              <td>{{ package.length }}cm </td>
+              <td>{{ package.width }}cm </td>
             </tr>
           </tbody>
         </table>
@@ -587,35 +587,35 @@ bdColor="rgba(0,0,0,0.9)"
               </tr>
               <tr>
                 <td>Total Weight</td>
-                <td class="min_cost"><span class="">R{{waybill.qoute.min_cost}}</span></td>
+                <td class="min_cost"><span class="">{{waybill.qoute?.admin_weight}}KG</span></td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td>Volumetric Weight</td>
                 <td class="min_cost"><span class="">R{{waybill.qoute.min_cost}}</span></td>
-              </tr>
+              </tr> -->
               <tr>
                 <td>Minimum Cost</td>
-                <td class="min_cost"><span class="">R{{waybill.qoute.min_cost}}</span></td>
+                <td class="min_cost"><span class="">R{{waybill.qoute.mincharge_price}}</span></td>
               </tr>
               <tr>
                 <td>Per KG Charge</td>
-                <td class="per_kg_charge"><span class="">R{{waybill.qoute.per_kg_charge}}</span></td>
+                <td class="per_kg_charge"><span class="">R{{waybill.qoute.per_kg_price}}</span></td>
               </tr>
               <tr>
                 <td>Fuel Levy</td>
-                <td class="fuel_cost"><span class="user_oustanding ">R{{waybill.qoute.fuel_cost}}</span></td>
+                <td class="fuel_cost"><span class="user_oustanding ">R{{waybill.qoute.fuel_price}}</span></td>
               </tr>
               <tr>
                 <td><h4>Sub total</h4></td>
-                <td class="sub_total"><span class="">R{{waybill.qoute.sub_total}}</span></td>
+                <td class="sub_total"><span class="">R{{waybill.qoute.final_price - waybill.qoute.vat_price}}</span></td>
               </tr>
               <tr>
                 <td>15% VAT</td>
-                <td class="vat_amt"><span class="user_oustandingr">R{{waybill.qoute.vat_amt}}</span></td>
+                <td class="vat_amt"><span class="user_oustandingr">R{{waybill.qoute.vat_price}}</span></td>
               </tr>
               <tr>
                 <td><h4>Grand Total</h4></td>
-                <td class="grand_total"><span class=""> R{{waybill.qoute.grand_total}} </span></td>
+                <td class="grand_total"><span class=""> R{{waybill.qoute.final_price}} </span></td>
               </tr>
             </tbody>
           </table>

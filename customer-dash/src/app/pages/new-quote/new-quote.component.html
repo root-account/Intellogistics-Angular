@@ -10,11 +10,21 @@ bdColor="rgba(0,0,0,0.9)"
     <!-- Header container -->
     <div class="container-fluid d-flex align-items-center animated fadeIn">
       <div class="row">
-        <div class="col">
-          <h1 class="display-2 text-white">Get a quote</h1>
+
+        <div *ngIf="!user_data['service_provicer'].serviceProviderID" class="col">
+          <h1 class="display-2 text-white">Send parcel</h1>
           <p class="text-white ">Fill in the below details to get a quote from multiple courier companies.</p>
           <!-- <a href="#!" class="btn btn-info">Edit profile</a> -->
         </div>
+
+        <div *ngIf="user_data['service_provicer'].serviceProviderID" class="col">
+          <h1 class="display-2 text-white">Send a parcel</h1>
+          <p class="text-white "> <b>Hi, {{user_data.details?.names}}...</b> you are subscribed to <b> {{service_provider_data?.company_name}} </b> .</p>
+          <!-- <a href="#!" class="btn btn-info">Edit profile</a> -->
+          <img width="200" src="{{service_provider_data.company_logo}}" alt="">
+        </div>
+
+
       </div>
     </div>
   </div>
@@ -48,6 +58,10 @@ bdColor="rgba(0,0,0,0.9)"
                          <input type="text" class="form-control " placeholder="Enter a location & select from the dropdown"
                           formControlName="pickup_address"
                          />
+                         <select  class="form-control " formControlName="collection_branch">
+                          <option [ngValue]="" disabled>Select Profince</option>
+                          <option *ngFor="let province of provinceList" [ngValue]="province">{{province}}</option>
+                        </select>
                       </div>
 
                       <small class="text-danger" *ngIf> 
@@ -75,6 +89,10 @@ bdColor="rgba(0,0,0,0.9)"
                          <input type="text" class="form-control" placeholder="Enter a location & select from the dropdown"
                           formControlName="destination_address"
                          />
+                         <select  class="form-control " formControlName="destination_branch">
+                          <option [ngValue]="" disabled>Select Profince</option>
+                          <option *ngFor="let province of provinceList" [ngValue]="province">{{province}}</option>
+                        </select>
                       </div>
                   </div>
 
@@ -246,6 +264,39 @@ bdColor="rgba(0,0,0,0.9)"
                       <span><small>Volumetric Weight:</small></span>
                       <h4> {{parcel_volume}} KG</h4>
                     </div>
+                  </div>
+
+                  <div class="quote-table  animated fadeIn" [ngClass]="{'hidden': !collectFormGroup.value.service_type }" >
+
+                    <table class="table quote-price-table">
+                      <tbody>
+                        <tr>
+                          <td>Minimum Cost</td>
+                          <td class="min_cost"><span class="">R{{calculated_rates?.min_cost}}</span></td>
+                        </tr>
+                        <tr>
+                          <td>Per KG Charge</td>
+                          <td class="per_kg_charge"><span class="">R{{calculated_rates?.per_kg_charge}}</span></td>
+                        </tr>
+                        <tr>
+                          <td>Fuel Levy</td>
+                          <td class="fuel_cost"><span class="user_oustanding ">R{{calculated_rates?.fuel_cost}}</span></td>
+                        </tr>
+                        <tr>
+                          <td><h4>Sub total</h4></td>
+                          <td class="sub_total"><span class="">R{{calculated_rates?.sub_total}}</span></td>
+                        </tr>
+                        <tr>
+                          <td>15% VAT</td>
+                          <td class="vat_amt"><span class="user_oustandingr">R{{calculated_rates?.vat_amt}}</span></td>
+                        </tr>
+                        <tr>
+                          <td><h4>Grand Total</h4></td>
+                          <td class="grand_total"><span class=""> R{{calculated_rates?.grand_total}} </span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+
                   </div>
 
                   <hr/>

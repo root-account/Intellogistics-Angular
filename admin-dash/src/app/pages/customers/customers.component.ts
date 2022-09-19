@@ -26,6 +26,11 @@ export class CustomersComponent implements OnInit {
   public customers = [];
   public all = [];
   public today = [];
+
+  public numCustomers = 0;
+  public customersBilledMonthly = 0;
+  public customersPrepaid = 0;
+
   // public pending = [];
   // public pickup = [];
   // public cancelled = [];
@@ -161,6 +166,9 @@ export class CustomersComponent implements OnInit {
         this.customers = data;
         this.all = data;
         console.log(data)
+
+        this.numCustomers = data.length;
+
         // this.active_class = "all";
 
         // this.today.length = 0;

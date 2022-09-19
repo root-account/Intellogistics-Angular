@@ -12,12 +12,22 @@ export class NavbarComponent implements OnInit {
   public focus;
   public listTitles: any[];
   public location: Location;
+  public isLoggedIn : boolean = false;
+
   constructor(location: Location,  private element: ElementRef, private router: Router) {
     this.location = location;
   }
 
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
+
+      //  Check if logged in
+      if(localStorage.getItem('userToken') != null){
+        this.isLoggedIn = true;
+      }else{
+        this.isLoggedIn = false;
+      }
+
   }
   getTitle(){
     var titlee = this.location.prepareExternalUrl(this.location.path());

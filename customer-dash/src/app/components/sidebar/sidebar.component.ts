@@ -7,12 +7,20 @@ declare interface RouteInfo {
     icon: string;
     class: string;
 }
+
+
 export const ROUTES: RouteInfo[] = [
-    { path: '/new-quote', title: 'Get a Quote',  icon: 'ni ni-chart-bar-32', class: '' },
-    { path: '/new-collection', title: 'Send a Parcel',  icon: 'ni ni-delivery-fast', class: '' },
+    { path: '/new-quote', title: 'Send a parcel',  icon: 'ni ni-chart-bar-32', class: '' },
+    // { path: '/new-collection', title: 'Send a Parcel',  icon: 'ni ni-delivery-fast', class: '' },
     { path: '/track', title: 'Track Parcel',  icon:'ni-pin-3 text-orange', class: '' },
     // { path: '/clear-payment', title: 'Clear Payment',  icon:'ni-planet text-blue', class: '' },
 ];
+
+// export const ROUTES_LOG_OUT: RouteInfo[] = [
+//   { path: '/new-quote', title: 'Send a parcel',  icon: 'ni ni-chart-bar-32', class: '' },
+//   { path: '/track', title: 'Track Parcel',  icon:'ni-pin-3 text-orange', class: '' },
+//   // { path: '/clear-payment', title: 'Clear Payment',  icon:'ni-planet text-blue', class: '' },
+// ];
 
 @Component({
   selector: 'app-sidebar',
@@ -30,6 +38,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
 
     this.menuItems = ROUTES.filter(menuItem => menuItem);
+
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
    });

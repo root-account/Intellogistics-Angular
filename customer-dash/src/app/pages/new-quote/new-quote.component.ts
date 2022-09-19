@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import {tap, first} from "rxjs/operators";
+import { Subscription } from "rxjs";
 
 
 import { WaybillService } from "../../services/waybills.service";
@@ -27,7 +28,8 @@ export class NewQuoteComponent implements OnInit {
     'North West',
     'Western Cape'
   ];
-  public loggedInId= "Technologies_1449";
+  public loggedInId= localStorage.getItem('userID');
+  public isLoggedIn = false;
   
   public googleFromAddress=" "; 
   public googleToAddress=" "; 
@@ -46,12 +48,18 @@ export class NewQuoteComponent implements OnInit {
   public total_length = 0;
   public parcel_volume = 0;
 
+  public calculated_rates = [];
+  public user_data = [];
+  public service_provider_data = [];
+
   checkoutForm;
 
   formLoading = false;
   formSuccess = false;
   public showServicesForm = false;
   public loading_msg;
+
+  obs: Subscription;
 
   // Google autocompete options
   options={ 
@@ -73,20 +81,20 @@ export class NewQuoteComponent implements OnInit {
 
   ngOnInit(): void {
     this.selected_courier.length = 0;
+    this.get_loggedin_user();
 
     this.collectFormGroup = this.fB.group({
-      // destination_address: [this.googleToAddress,[Validators.required]],
-      // pickup_address: [this.googleFromAddress,[Validators.required]],
       destination_address: [this.googleToAddress,[Validators.required]],
-      pickup_address: [this.googleFromAddress,[Validators.required]],
-      collection_branch:[this.fromRegion,[Validators.required]] ,
-      destination_branch:[this.toRegion,[Validators.required]],
+      pickup_address: ['',[Validators.required]],
+      collection_branch:['',[Validators.required]] ,
+      destination_branch:['',[Validators.required]],
       pickup_postal_code:'',
       service_type: ['',[Validators.required]],
       modified_by: '',
       pack_desc:'',
       no_dimentions:false,
       packages:this.fB.array([]),
+      service_provider_id: '',
     });
 
     this.userDetailsFormGroup = this.fB.group({
@@ -148,14 +156,8 @@ export class NewQuoteComponent implements OnInit {
           this.fromAddressChange(this.collectFormGroup.value.pickup_address);
           this.toAddressChange(this.collectFormGroup.value.destination_address);
 
-          this.googleFromAddress = this.collectFormGroup.value.pickup_address; 
-          this.googleToAddress = this.collectFormGroup.value.destination_address; 
-
-          this.fromRegion = this.collectFormGroup.value.pickup_address; 
-          this.toRegion = this.collectFormGroup.value.destination_address; 
-
-          console.log(this.fromRegion);
-          console.log(this.toRegion);
+          this.fromRegion = this.collectFormGroup.value.collection_branch; 
+          this.toRegion = this.collectFormGroup.value.destination_branch; 
           
           
     }); //end form change
@@ -173,6 +175,7 @@ export class NewQuoteComponent implements OnInit {
      
 
   } //end init
+
 
   // Multiple packages form
   get packagesForms() {
@@ -222,6 +225,7 @@ export class NewQuoteComponent implements OnInit {
       this.selected_courier.length = 0;
       this.selectedProvider = "";
       this.all_quotes.length = 0;
+      this.calculated_rates = [];
       this.showServicesForm = false;
       this.collectFormGroup.controls['service_type'].setValue("");
     }else{
@@ -300,6 +304,82 @@ export class NewQuoteComponent implements OnInit {
   }
 
 
+
+  // HTTP Get service provider
+  get_loggedin_user(){
+
+    this.spinner.show();
+    this.loading_msg = "Fetching your details, just a moment please...";
+
+    this.obs = this.waybill.get_single_user(this.loggedInId).subscribe({
+      next: data => {
+      this.user_data = [];
+      this.user_data = data;
+
+      console.log(this.user_data);
+
+      this.spinner.hide();
+      this.loading_msg = ""; 
+      
+
+      console.log(this.service_provider_data.length);
+      console.log(this.isLoggedIn);
+    
+      if( this.user_data['details'] !== null ){
+        console.log(this.user_data['service_provicer'].serviceProviderID);
+
+        this.isLoggedIn = true;
+
+
+        if (this.user_data['service_provicer'] !== null) {
+
+          // this.selectedProvider = this.user_data['service_provicer'].serviceProviderID;
+          this.service_provider_data = this.user_data['service_provicer'];
+          this.collectFormGroup.controls['service_provider_id'].setValue(this.user_data['service_provicer'].serviceProviderID);
+
+          // set form data
+          this.userDetailsFormGroup.controls['cust_name'].setValue(this.user_data['details'].names);
+          this.userDetailsFormGroup.controls['surname'].setValue(this.user_data['details'].surname);
+          this.userDetailsFormGroup.controls['email_addr'].setValue(this.user_data['details'].user_email);
+          this.userDetailsFormGroup.controls['cellphone'].setValue(this.user_data['details'].phone_no);
+          
+          
+        }else{
+          this.toastr.error('You are not subscribed to any couriers...', '', {
+            positionClass: 'toast-top-center',
+            closeButton: true,
+            // disableTimeOut: true,
+          });
+        }
+
+      }else{
+        this.toastr.error('You are not logged in.', '', {
+          positionClass: 'toast-top-center',
+          closeButton: true,
+          // disableTimeOut: true,
+        });
+
+        this.service_provider_data = {};
+      }
+     
+    },
+    error: error => {
+      this.spinner.hide();
+      this.loading_msg = "";
+      console.log(error);
+      this.toastr.error('There was a technical error getting user data. [er-getRCal]', '', {
+        positionClass: 'toast-top-center',
+        timeOut: 3000,
+        // closeButton: true,
+        // disableTimeOut: true,
+      });
+      
+    }
+
+    });
+  }
+
+
   // Http Get all calculations
   get_all_calculated_quotes(){
 
@@ -323,14 +403,23 @@ export class NewQuoteComponent implements OnInit {
             this.selectedProvider = "";
             this.all_quotes.length = 0;
             this.all_quotes = data;
-
             
             if (this.all_quotes.length > 0) {
               this.service_desc = this.all_quotes[0]['rates'].service_desc;
               this.parcel_volume = this.all_quotes[0]['rates'].volumetric_weight;
 
               console.log(this.totalDimensions);
-                            
+              
+              this.selected_courier.length = 0;
+              this.selected_courier = this.all_quotes[0];
+              
+              this.service_desc = this.selected_courier['rates'].service_desc;
+              this.calculated_rates = this.selected_courier['rates'];
+
+              console.log(this.selected_courier);
+
+            }else{
+              this.calculated_rates = {};
             }
             
             this.spinner.hide();
@@ -368,6 +457,7 @@ export class NewQuoteComponent implements OnInit {
   get_all_services_func(){
 
     let packages_obj = this.collectFormGroup.value.packages;
+
     if(this.googleFromAddress !== "" 
          &&  this.fromRegion !== ""
          &&  this.googleToAddress !== ""
@@ -383,6 +473,11 @@ export class NewQuoteComponent implements OnInit {
             this.service_desc = "";
             
             console.log(this.all_services);
+            
+            console.log(this.collectFormGroup.value);
+
+            console.log(this.fromRegion);
+            console.log(this.toRegion);
             
 
           },
@@ -506,6 +601,12 @@ export class NewQuoteComponent implements OnInit {
     
   }
 
+
+  ngOnDestroy(): void {
+    // this.waybill.get_single_user('').unsubscribe();
+    this.obs.unsubscribe();
+  }
+  
   
 
 }

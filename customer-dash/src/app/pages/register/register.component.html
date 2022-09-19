@@ -29,9 +29,28 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                 </div>
-                <input class="form-control" placeholder="Name" type="text">
+                <input class="form-control" placeholder="Full Names" type="text">
               </div>
             </div>
+            
+            <div class="form-group">
+              <div class="input-group form-control-alternative input-group-alternative mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                </div>
+                <input class="form-control" placeholder="Surname" type="text">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="input-group form-control-alternative input-group-alternative mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                </div>
+                <input class="form-control" placeholder="Phone Number" type="text">
+              </div>
+            </div>
+
             <div class="form-group">
               <div class="input-group form-control-alternative input-group-alternative mb-3">
                 <div class="input-group-prepend">
@@ -40,6 +59,7 @@
                 <input class="form-control" placeholder="Email" type="email">
               </div>
             </div>
+            
             <div class="form-group">
               <div class="input-group form-control-alternative input-group-alternative">
                 <div class="input-group-prepend">
@@ -48,13 +68,23 @@
                 <input class="form-control" placeholder="Password" type="password">
               </div>
             </div>
-            <div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">strong</span></small></div>
+
+            <div class="form-group">
+              <div class="input-group form-control-alternative input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                </div>
+                <input class="form-control" placeholder="Confirm Password" type="password">
+              </div>
+            </div>
+
+            <!-- <div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">strong</span></small></div> -->
             <div class="row my-4">
               <div class="col-12">
                 <div class="custom-control custom-control-alternative custom-checkbox">
                   <input class="custom-control-input" id="customCheckRegister" type="checkbox">
                   <label class="custom-control-label" for="customCheckRegister">
-                    <span class="text-muted">I agree with the <a href="#!">Privacy Policy</a></span>
+                    <span class="text-muted">I agree with the <a href="#">Privacy Policy</a></span>
                   </label>
                 </div>
               </div>
@@ -65,6 +95,16 @@
           </form>
         </div>
       </div>
+
+      <div class="row mt-3">
+        <div class="col-6">
+          <a [routerLink]="['/login']" class="text-light"><small>Already have account?</small></a>
+        </div>
+        <div class="col-6 text-right">
+          <a [routerLink]="['/login']" class="text-light"><small>Login to account</small></a>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

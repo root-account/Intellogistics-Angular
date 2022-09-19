@@ -26,6 +26,9 @@ export class DriversComponent implements OnInit {
   public drivers = [];
   public all = [];
   public today = [];
+  public numDrivers = 0;
+  public numDriversOnline = 0;
+  public numDriversOffline = 0;
   // public pending = [];
   // public pickup = [];
   // public cancelled = [];
@@ -161,6 +164,9 @@ export class DriversComponent implements OnInit {
         this.drivers = data;
         this.all = data;
         console.log(data)
+
+        this.numDrivers = data.length;
+
         // this.active_class = "all";
 
         // this.today.length = 0;

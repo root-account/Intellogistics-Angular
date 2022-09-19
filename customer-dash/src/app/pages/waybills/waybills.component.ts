@@ -227,20 +227,23 @@ export class WaybillsComponent implements OnInit {
     this.spinner.show();
     this._waybillService.getSingleWaybillServ(waybill_no).subscribe({
       next: data => {
-          this.single_waybill.push(data);;
+          // this.single_waybill.push(data);
+          this.single_waybill.push(data);
           this.spinner.hide();
           this.loading_msg = "";
           this.open_waybill = true;
           this.statusBadgeClass(data['qoute'].delivery_status, data['qoute'].payment_status);
 
-          this.changeDriverForm.value.branch = data['qoute'].branch;
-          this.changeDriverForm.value.driver_id = data['qoute'].driver_id;
+          // this.changeDriverForm.value.branch = data['qoute'].branch;
+          // this.changeDriverForm.value.driver_id = data['qoute'].driver_id;
 
-          this.trackinStatusForm.value.delivery_status = data['qoute'].delivery_status;
-          this.trackinStatusForm.value.delivery_note = data['qoute'].delivery_note;
-          this.trackinStatusForm.value.signed_on = data['qoute'].signed_on;
-          this.trackinStatusForm.value.signed_by = data['qoute'].signed_by;
+          // this.trackinStatusForm.value.delivery_status = data['qoute'].delivery_status;
+          // this.trackinStatusForm.value.delivery_note = data['qoute'].delivery_note;
+          // this.trackinStatusForm.value.signed_on = data['qoute'].signed_on;
+          // this.trackinStatusForm.value.signed_by = data['qoute'].signed_by;
 
+          console.log(this.single_waybill);
+          
 
       },error: error => {
         this.spinner.hide();

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http'; 
+import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular/common/http'; 
 import { Observable } from 'rxjs'; 
-import { catchError, tap, map } from 'rxjs/operators'; 
+import { catchError, tap, map, retry } from 'rxjs/operators'; 
+import {  throwError } from 'rxjs';
 import { IWaybill } from '../models/waybills'; 
 
   
@@ -20,6 +21,7 @@ export class WaybillService {
   private get_all_services_url = this.BaseURL+"/get-services";
   private get_provider_services_url = this.BaseURL+"/supplier-services";
   private post_waybill_url = this.BaseURL+"/newqoute";
+  private addpackage_url = this.BaseURL+"/addpackage";
   private update_waybill_url = this.BaseURL+"/updateqoute/";
   private get_service_provider_url = this.BaseURL+"/service-provider";
   private get_single_user_url = this.BaseURL+"/getuserdata/";
@@ -31,21 +33,21 @@ export class WaybillService {
 
   // Get all waybills
   getAllWaybills(): Observable<any []> { 
-    let waybils_data = this._http.get<IWaybill []>(this.waybills_url);
+    let waybils_data = this._http.get<IWaybill []>(this.waybills_url).pipe(retry(3), catchError(this.handleError));;
 
     return waybils_data;
   }
 
   // Get single waybill
   getSingleWaybillServ(waybill_no): Observable<any []> { 
-    let waybil_data = this._http.get<any []>(this.single_waybill_url+waybill_no);
+    let waybil_data = this._http.get<any []>(this.single_waybill_url+waybill_no).pipe(retry(3), catchError(this.handleError));;
     return waybil_data;
   }
 
 
   // Track Waybill
   TrackWaybill(waybill_no): Observable<any []> { 
-    let waybil_data = this._http.get<any []>(this.track_waybill_url+waybill_no);
+    let waybil_data = this._http.get<any []>(this.track_waybill_url+waybill_no).pipe(retry(3), catchError(this.handleError));;
     return waybil_data;
   }
 
@@ -70,7 +72,7 @@ export class WaybillService {
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', '');
     
-    let all_quotes_data = this._http.get<any[]>(this.get_all_pricing_url+service_id, {headers, params} );
+    let all_quotes_data = this._http.get<any[]>(this.get_all_pricing_url+service_id, {headers, params} ).pipe(retry(3), catchError(this.handleError));;
     
     return all_quotes_data;
   }
@@ -94,7 +96,7 @@ export class WaybillService {
       headers.append('Content-Type', 'application/json');
       headers.append('Authorization', '');
       
-      let all_quotes_data = this._http.get<any[]>(this.get_all_pricing_url+service_id, {headers, params} );
+      let all_quotes_data = this._http.get<any[]>(this.get_all_pricing_url+service_id, {headers, params} ).pipe(retry(3), catchError(this.handleError));;
       
       return all_quotes_data;
     }
@@ -109,7 +111,7 @@ export class WaybillService {
       headers.append('Content-Type', 'application/json');
       headers.append('Authorization', '');
           
-      let services_data = this._http.get<any[]>(this.get_all_services_url, {headers, params} );
+      let services_data = this._http.get<any[]>(this.get_all_services_url, {headers, params} ).pipe(retry(3), catchError(this.handleError));;
 
       console.log(formData);
       
@@ -129,7 +131,7 @@ export class WaybillService {
       headers.append('Content-Type', 'application/json');
       headers.append('Authorization', '');
           
-      let services_data = this._http.get<any[]>(this.get_provider_services_url, {headers, params} );
+      let services_data = this._http.get<any[]>(this.get_provider_services_url, {headers, params} ).pipe(retry(3), catchError(this.handleError));;
 
       console.log(formData.collection_branch);
       console.log(formData.destination_branch);
@@ -149,7 +151,7 @@ export class WaybillService {
       headers.append('Content-Type', 'application/json');
       headers.append('Authorization', '');
           
-      let service_provider = this._http.get<any[]>(this.get_service_provider_url, {headers, params} );
+      let service_provider = this._http.get<any[]>(this.get_service_provider_url, {headers, params} ).pipe(retry(3), catchError(this.handleError));;
   
       return service_provider;
     }
@@ -162,7 +164,7 @@ export class WaybillService {
       headers.append('Content-Type', 'application/json');
       headers.append('Authorization', '');
           
-      let user_data = this._http.get<any[]>(this.get_single_user_url+user_id, {headers, params} );
+      let user_data = this._http.get<any[]>(this.get_single_user_url+user_id, {headers, params} ).pipe(retry(3), catchError(this.handleError));;
   
       return user_data;
     }
@@ -218,7 +220,7 @@ export class WaybillService {
       params = params.append( "admin_length", totalDimensions.total_length);
       params = params.append("admin_height", totalDimensions.total_height);
       params = params.append("admin_width", totalDimensions.total_width);
-      params = params.append("packages", formData.packages);
+      params = params.append("packages", JSON.stringify(formData.packages));
 
 
       console.log(formData);
@@ -231,7 +233,20 @@ export class WaybillService {
       headers.append('Authorization', '');
 
       return this._http.post(this.post_waybill_url,params,{headers, params});
-       
+
+
+
+      //  this._http.post(this.post_waybill_url,params,{headers, params}).subscribe({
+      //   next: data => {
+      //     console.log(data);
+        
+      //     return this._http.post(this.addpackage_url,params,{headers, params})
+      //   },
+      //   error: error => {
+      //     return error;
+      //   }    
+      
+      // });
     }
 
 
@@ -253,8 +268,21 @@ export class WaybillService {
       headers.append('Authorization', '');
 
 
-      return this._http.put(this.update_waybill_url+waybill_no ,params,{headers, params});
+      return this._http.put(this.update_waybill_url+waybill_no ,params,{headers, params}).pipe(retry(3), catchError(this.handleError));;
        
+    }
+
+    handleError(error: HttpErrorResponse) {
+      let errorMessage = 'Unknown error!';
+      if (error.error instanceof ErrorEvent) {
+        // Client-side errors
+        errorMessage = `Error: ${error.error.message}`;
+      } else {
+        // Server-side errors
+        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      }
+      window.alert(errorMessage);
+      return throwError(errorMessage);
     }
 
 
