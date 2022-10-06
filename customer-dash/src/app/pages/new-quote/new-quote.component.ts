@@ -359,7 +359,7 @@ export class NewQuoteComponent implements OnInit {
           // disableTimeOut: true,
         });
 
-        this.service_provider_data = {};
+        this.service_provider_data.length = 0;
       }
      
     },
@@ -419,7 +419,7 @@ export class NewQuoteComponent implements OnInit {
               console.log(this.selected_courier);
 
             }else{
-              this.calculated_rates = {};
+              this.calculated_rates = [];
             }
             
             this.spinner.hide();
