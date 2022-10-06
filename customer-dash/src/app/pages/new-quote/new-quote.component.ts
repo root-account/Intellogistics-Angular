@@ -419,7 +419,7 @@ export class NewQuoteComponent implements OnInit {
               console.log(this.selected_courier);
 
             }else{
-              this.calculated_rates = [];
+              this.calculated_rates.length = 0;
             }
             
             this.spinner.hide();
